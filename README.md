@@ -188,7 +188,7 @@ transport.getLogs({
         });
 ```
 
-### Receive SMS
+### Received SMS
 To obtain received SMS(s), instantiate `bipsms` with your account details then invoke `getReceivedLogs(options,callback(error,receivedSMS))` where
 - `options` - are valid [request parameters](http://dev.infobip.com/docs/pull-received-messages) to be supplied on the request 
 - `error` - is any error encountered during requesting received SMS(s)
