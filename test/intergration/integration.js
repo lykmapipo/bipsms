@@ -22,10 +22,10 @@ describe('Transport Integration', function() {
         });
     });
     it('should to send send single sms to single destination');
-    it('should to send send single sms to multiple destination');
-    it('should send multiple sms to multiple destination');
-    it('should be able to query for sms delivery status');
-    it('should be able to query sms sent history');
-    it('should be able to query for recived sms');
-    it('should be able to query for recived sms logs');
+    it('should to send send single sms to multiple destinations');
+    it('should send multiple sms(s) to multiple destinations');
+    it('should be able to query for sms(s) delivery status');
+    it('should be able to query sms(s) sent history');
+    it('should be able to query for recived sms(s)');
+    it('should be able to query for recived sms(s) logs');
 });

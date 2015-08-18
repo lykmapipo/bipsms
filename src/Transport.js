@@ -26,7 +26,7 @@ function Transport(options) {
         sendSingleUrl: '/sms/1/text/single',
         sendMultiUrl: '/sms/1/text/multi',
         receivedUrl: '/sms/1/inbox/reports',
-        receiveLogsUrl: '/sms/1/inbox/logs'
+        receivedLogUrl: '/sms/1/inbox/logs'
     };
 
     //merge provided options with the default options
@@ -523,6 +523,78 @@ Transport.prototype.getReceived = function(options, done) {
         });
 };
 
+
+/**
+ * @description obtain received sms(s) log from account inbox
+ * @param  {[type]}   options [description]
+ * @param  {Function} done    [description]
+ * @return {[type]}           [description]
+ */
+Transport.prototype.getReceivedLogs = function(options, done) {
+    //if no options provided
+    if (_.size(arguments) === 1) {
+        done = options;
+        options = {};
+    }
+
+    //prepare received log sms(s) request params
+    options = options || {};
+
+    async.waterfall(
+        [
+
+            function buildAthorizationToken(next) {
+                this.getAuthorizationToken(next);
+            }.bind(this),
+
+            function issueReceivedSMSLogRequest(token, next) {
+                //prepare received sms(s) log request details
+                var receivedSMSLogRequestDetails = {
+                    method: 'GET',
+                    qs: options,
+                    url: this.baseUrl + this.receivedLogUrl,
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: token
+                    }
+                };
+
+                //issue received sms(s) request
+                request(receivedSMSLogRequestDetails, next);
+
+            }.bind(this)
+        ],
+        function finalize(error, response, data) {
+            //if error backoff
+            if (error) {
+                done(error);
+            }
+
+            //if invalid credentials provided
+            //TODO handle other server side errors
+            else if (response.statusCode !== 200) {
+                //process response data to error
+                data = JSON.parse(data) || {};
+                var requestError = data.requestError || {};
+                var serviceException = requestError.serviceException || {};
+                var errorName = serviceException.messageId || 'UNAUTHORIZED';
+                var errorCode = response.statusCode || 401;
+                var errorMessage = serviceException.text || 'Invalid credentials';
+
+                var _error = new Error(errorMessage);
+                _error.code = errorCode;
+                _error.name = errorName;
+
+                done(_error);
+            }
+
+            //everything is okey return data as received sms(s) log
+            else {
+                var receivedSMSLog = JSON.parse(data);
+                done(null, receivedSMSLog);
+            }
+        });
+};
 
 //export transport
 module.exports = exports = Transport;

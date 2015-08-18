@@ -26,5 +26,14 @@
         "cleanText": "hello world",
         "keyword": "KEY",
         "smsCount": 1
+    }, {
+        "messageId": "5904217701796992008",
+        "to": "41793026727",
+        "receivedAt": "2015-03-01T12:54:40.111+0000",
+        "from": "385998779111",
+        "text": "KEY hello world",
+        "cleanText": "hello world",
+        "keyword": "",
+        "smsCount": 1
     }]
 }

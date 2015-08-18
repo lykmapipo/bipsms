@@ -2,7 +2,7 @@
 
 [![build status](https://secure.travis-ci.org/lykmapipo/bipsms.png)](http://travis-ci.org/lykmapipo/bipsms)
 
-Send SMS(s), query their delivery status and sending history in [nodejs](https://nodejs.org) using [infobip JSON API](http://dev.infobip.com/).
+Send SMS(s), query their delivery status and sending history in [nodejs](https://nodejs.org) using [infobip JSON API v1](http://dev.infobip.com/).
 
 *Note:! It strongly recommend using the [E.164 number formatting](https://en.wikipedia.org/wiki/E.164) when sending SMS(s)*
 
@@ -179,6 +179,81 @@ var transport = new Transport({username:'<username>',password:'<password>'});
 
 transport.getLogs({
             bulkId: '<bulkId>'
+        },function(error, logs) {
+
+            expect(error).to.be.null;
+            expect(logs).to.exist;
+            expect(logs.results).to.exist;
+
+        });
+```
+
+### Receive SMS
+To obtain received SMS(s), instantiate `bipsms` with your account details then invoke `getReceivedLogs(options,callback(error,receivedSMS))` where
+- `options` - are valid [request parameters](http://dev.infobip.com/docs/pull-received-messages) to be supplied on the request 
+- `error` - is any error encountered during requesting received SMS(s)
+- `receivedSMS` - are SMS(s) [received](http://dev.infobip.com/docs/pull-received-messages#section-smsresponse)
+
+#### Example - Request all received SMS(s)
+```js
+var Transport = require('bipsms');
+var transport = new Transport({username:'<username>',password:'<password>'});
+
+transport.getReceived(function(error, receivedSMS) {
+
+            expect(error).to.be.null;
+            expect(receivedSMS).to.exist;
+            expect(receivedSMS.results).to.exist;
+
+        });
+```
+
+#### Example - Request received SMS(s) with parameters specified
+```js
+var Transport = require('bipsms');
+var transport = new Transport({username:'<username>',password:'<password>'});
+
+transport.getReceived({
+            limit: '<limit>'
+        },function(error, receivedSMS) {
+
+            expect(error).to.be.null;
+            expect(receivedSMS).to.exist;
+            expect(receivedSMS.results).to.exist;
+
+        });
+```
+
+
+### Received SMS Log
+To obtain received SMS(s) logs, instantiate `bipsms` with your account details then invoke `getReceivedLogs(options,callback(error,logs))` where
+- `options` - are valid [request parameters](http://dev.infobip.com/docs/received-messages-logs) to be supplied on the request 
+- `error` - is any error encountered during requesting received SMS(s) logs
+- `logs` - are SMS(s) [received logs](http://dev.infobip.com/docs/received-messages-logs#section-mologsresponse)
+
+*Note!: Received messages logs are available for the last 48 hours!*
+
+#### Example - Request all received SMS(s) logs
+```js
+var Transport = require('bipsms');
+var transport = new Transport({username:'<username>',password:'<password>'});
+
+transport.getReceivedLogs(function(error, logs) {
+
+            expect(error).to.be.null;
+            expect(logs).to.exist;
+            expect(logs.results).to.exist;
+
+        });
+```
+
+#### Example - Request received SMS(s) logs with parameters specified
+```js
+var Transport = require('bipsms');
+var transport = new Transport({username:'<username>',password:'<password>'});
+
+transport.getReceivedLogs({
+            limit: '<limit>'
         },function(error, logs) {
 
             expect(error).to.be.null;
