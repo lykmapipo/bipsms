@@ -1,0 +1,46 @@
+{
+    "name": "bipsms",
+    "version": "0.1.0",
+    "description": "infobip sms transport",
+    "main": "src/index.js",
+    "scripts": {
+        "test": "grunt test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lykmapipo/bipsms"
+    },
+    "keywords": [
+        "julisha",
+        "infobip",
+        "sms",
+        "transport"
+    ],
+    "author": "lykmapipo <lallyelias87@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/lykmapipo/bipsms/issues"
+    },
+    "dependencies": {
+        "async": "^1.4.2",
+        "e164": "0.0.5",
+        "google-libphonenumber": "^1.0.4",
+        "lodash": "^3.10.1",
+        "phone": "^1.0.4",
+        "request": "^2.60.0"
+    },
+    "devDependencies": {
+        "chai": "~1.10.0",
+        "faker": "^3.0.1",
+        "grunt": "~0.4.1",
+        "grunt-contrib-jshint": "^0.11.2",
+        "grunt-contrib-watch": "~0.5.3",
+        "grunt-mocha-test": "^0.12.7",
+        "jshint-stylish": "^2.0.1",
+        "load-grunt-tasks": "^3.2.0",
+        "mocha": "^2.2.5",
+        "nock": "^2.10.0",
+        "querystring": "^0.2.0",
+        "url-querystring": "^2.1.1"
+    }
+}

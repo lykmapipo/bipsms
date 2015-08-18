@@ -1,0 +1,14 @@
+{
+    "messages": [{
+        "to": "41793026727",
+        "status": {
+            "groupId": 0,
+            "groupName": "Queue/Accepted",
+            "id": 0,
+            "name": "MESSAGE_ACCEPTED",
+            "description": "Message accepted"
+        },
+        "smsCount": 1,
+        "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"
+    }]
+}

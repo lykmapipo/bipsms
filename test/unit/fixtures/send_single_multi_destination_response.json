@@ -1,0 +1,26 @@
+{
+    "bulkId": "f5c4322c-10e7-a41e-5528-34fa0b032134",
+    "messages": [{
+        "to": "41793026727",
+        "status": {
+            "groupId": 0,
+            "groupName": "ACCEPTED",
+            "id": 0,
+            "name": "MESSAGE_ACCEPTED",
+            "description": "Message accepted"
+        },
+        "smsCount": 1,
+        "messageId": "4a54f0242f19-b832-1c39-a7e7a2095f351ed2"
+    }, {
+        "to": "41793026834",
+        "status": {
+            "groupId": 0,
+            "groupName": "ACCEPTED",
+            "id": 0,
+            "name": "MESSAGE_ACCEPTED",
+            "description": "Message accepted"
+        },
+        "smsCount": 1,
+        "messageId": "9404a69cef19-7a31-ba39-92ace76a5f351ed2"
+    }]
+}

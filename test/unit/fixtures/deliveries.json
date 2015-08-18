@@ -1,0 +1,81 @@
+{
+    "results": [{
+        "bulkId": "80664c0c-e1ca-414d-806a-5caf146463df",
+        "messageId": "bcfb828b-7df9-4e7b-8715-f34f5c61271a",
+        "to": "38598111",
+        "sentAt": "2015-02-12T09:51:43.123+0100",
+        "doneAt": "2015-02-12T09:51:43.127+0100",
+        "smsCount": 1,
+        "price": {
+            "pricePerMessage": 0.01,
+            "currency": "EUR"
+        },
+        "status": {
+            "groupId": 3,
+            "groupName": "DELIVERED",
+            "id": 5,
+            "name": "DELIVERED_TO_HANDSET",
+            "description": "Message delivered to handset"
+        },
+        "error": {
+            "groupId": 0,
+            "groupName": "OK",
+            "id": 0,
+            "name": "NO_ERROR",
+            "description": "No Error",
+            "permanent": false
+        }
+    }, {
+        "bulkId": "08fe4407-c48f-4d4b-a2f4-9ff583c985b8",
+        "messageId": "12db39c3-7822-4e72-a3ec-c87442c0ffc5",
+        "to": "385981112",
+        "sentAt": "2015-02-12T09:50:22.221+0100",
+        "doneAt": "2015-02-12T09:50:22.232+0100",
+        "smsCount": 1,
+        "price": {
+            "pricePerMessage": 0.01,
+            "currency": "EUR"
+        },
+        "status": {
+            "groupId": 3,
+            "groupName": "DELIVERED",
+            "id": 5,
+            "name": "DELIVERED_TO_HANDSET",
+            "description": "Message delivered to handset"
+        },
+        "error": {
+            "groupId": 0,
+            "groupName": "OK",
+            "id": 0,
+            "name": "NO_ERROR",
+            "description": "No Error",
+            "permanent": false
+        }
+    }, {
+        "bulkId": "8c20f086-d82b-48cc-b2b3-3ca5f7aca9fb",
+        "messageId": "ff4804ef-6ab6-4abd-984d-ab3b1387e852",
+        "to": "385981178",
+        "sentAt": "2015-02-12T09:58:20.323+0100",
+        "doneAt": "2015-02-12T09:58:20.337+0100",
+        "smsCount": 1,
+        "price": {
+            "pricePerMessage": 0.01,
+            "currency": "EUR"
+        },
+        "status": {
+            "id": 5,
+            "groupId": 3,
+            "groupName": "DELIVERED",
+            "name": "DELIVERED_TO_HANDSET",
+            "description": "Message delivered to handset"
+        },
+        "error": {
+            "groupId": 0,
+            "groupName": "OK",
+            "id": 0,
+            "name": "NO_ERROR",
+            "description": "No Error",
+            "permanent": false
+        }
+    }]
+}

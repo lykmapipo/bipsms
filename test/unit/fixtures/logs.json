@@ -1,0 +1,91 @@
+{
+    "results": [{
+        "bulkId": "bafdeb3d-719b-4cce-8762-54d47b40f3c5",
+        "messageId": "07e03aae-fabc-44ad-b1ce-222e14094d70",
+        "to": "41793026727",
+        "from": "InfoSMS",
+        "text": "Test SMS.",
+        "sentAt": "2015-02-23T17:41:11.833+0100",
+        "doneAt": "2015-02-23T17:41:11.843+0100",
+        "smsCount": 1,
+        "mccmnc": "22801",
+        "price": {
+            "pricePerMessage": 0.01,
+            "currency": "EUR"
+        },
+        "status": {
+            "groupId": 3,
+            "groupName": "DELIVERED",
+            "id": 5,
+            "name": "DELIVERED_TO_HANDSET",
+            "description": "Message delivered to handset"
+        },
+        "error": {
+            "groupId": 0,
+            "groupName": "OK",
+            "id": 0,
+            "name": "NO_ERROR",
+            "description": "No Error",
+            "permanent": false
+        }
+    }, {
+        "bulkId": "06479ba3-5977-47f6-9346-fee0369bc76b",
+        "messageId": "1f21d8d7-f306-4f53-9f6e-eddfce9849ea",
+        "to": "41793026727",
+        "from": "InfoSMS",
+        "text": "Test SMS.",
+        "sentAt": "2015-02-23T17:40:31.773+0100",
+        "doneAt": "2015-02-23T17:40:31.787+0100",
+        "smsCount": 1,
+        "mccmnc": "22801",
+        "price": {
+            "pricePerMessage": 0.01,
+            "currency": "EUR"
+        },
+        "status": {
+            "groupId": 3,
+            "groupName": "DELIVERED",
+            "id": 5,
+            "name": "DELIVERED_TO_HANDSET",
+            "description": "Message delivered to handset"
+        },
+        "error": {
+            "groupId": 0,
+            "groupName": "OK",
+            "id": 0,
+            "name": "NO_ERROR",
+            "description": "No Error",
+            "permanent": false
+        }
+    }, {
+        "bulkId": "82d1d36e-e4fb-4194-8b93-caeb053bd327",
+        "messageId": "fc0cbfb8-7a72-40da-a76d-e2c2d9400835",
+        "to": "41793026727",
+        "from": "InfoSMS",
+        "text": "Test SMS.",
+        "sentAt": "2015-02-23T17:42:05.390+0100",
+        "doneAt": "2015-02-23T17:42:05.390+0100",
+        "smsCount": 1,
+        "mccmnc": "22801",
+        "price": {
+            "pricePerMessage": 0,
+            "currency": "EUR"
+        },
+        "status": {
+            "groupId": 5,
+            "groupName": "REJECTED",
+            "id": 6,
+            "name": "REJECTED_NETWORK",
+            "description": "Network is forbidden",
+            "action": "Contact account manager"
+        },
+        "error": {
+            "groupId": 0,
+            "groupName": "OK",
+            "id": 0,
+            "name": "NO_ERROR",
+            "description": "No Error",
+            "permanent": false
+        }
+    }]
+}
