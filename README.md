@@ -2,9 +2,9 @@
 
 [![build status](https://secure.travis-ci.org/lykmapipo/bipsms.png)](http://travis-ci.org/lykmapipo/bipsms)
 
-Send SMS(s), query their delivery status and sending history(logs) in nodejs using infobip JSON API.
+Send SMS(s), query their delivery status and sending history in [nodejs](https://nodejs.org) using [infobip JSON API](http://dev.infobip.com/).
 
-*Note:! It strongly recommend using the [E.164 number formatting](https://en.wikipedia.org/wiki/E.164) when sending SMS(s) using this library*
+*Note:! It strongly recommend using the [E.164 number formatting](https://en.wikipedia.org/wiki/E.164) when sending SMS(s)*
 
 ## Installation
 ``` bash
@@ -12,7 +12,7 @@ $ npm install bipsms --save
 ```
 
 ## Usage
-Firstly, you'll need a valid [Infobip account](https://accounts.infobip.com/signup). When you sign up for the account, you will set a username and password.
+Firstly, you'll need a valid [Infobip account](https://accounts.infobip.com/signup). When you sign up for the account, you will get a username and password.
 
 ### Send single SMS to single destination
 To send single SMS to single destination, instantiate `bipsms` with your account details then invoke `sendSingle(sms,callback(error,response))` where
