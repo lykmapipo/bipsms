@@ -79,7 +79,7 @@ describe('Transport Logs', function() {
                 return [200, logs];
             });
 
-        //request account logs
+        //request all account logs
         transport.getLogs(function(error, logs) {
 
             expect(error).to.be.null;

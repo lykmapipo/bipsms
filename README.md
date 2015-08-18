@@ -19,6 +19,43 @@ Firstly, you'll need a valid [Infobip account](https://accounts.infobip.com/sign
 ### Send multiple SMS to multiple destination
 
 ### Delivery report
+To obtain SMS(s) delivery reports. Instantiate `bipsms` with your account details then invoke `getDeliveryReport(options,callback(error,logs))` where
+- `options` - are valid [request parameters](http://dev.infobip.com/docs/delivery-reports) to be supplied on the request 
+- `error` - is any error encountered during requesting SMS(s) sent delivery report
+- `deliveryReport` - is SMS(s) [sent delivery reports](http://dev.infobip.com/docs/delivery-reports#section-smsreportresponse)
+
+*Note!: Delivery reports can only be retrieved one time. Once you retrieve a delivery report, you will not be able to get the same report again by using this endpoint.*
+
+#### Example - Request all delivery reports
+```js
+var Transport = require('bipsms');
+var transport = new Transport({username:'<username>',password:'<password>'});
+
+transport.getDeliveryReport(function(error, deliveryReport) {
+
+            expect(error).to.be.null;
+            expect(deliveryReport).to.exist;
+            expect(deliveryReport.results).to.exist;
+
+        });
+```
+
+#### Example - Request delivery report with parameters specified
+```js
+var Transport = require('bipsms');
+var transport = new Transport({username:'<username>',password:'<password>'});
+
+transport.getDeliveryReport({
+            bulkId: '<bulkId>'
+        },function(error, deliveryReport) {
+
+            expect(error).to.be.null;
+            expect(deliveryReport).to.exist;
+            expect(deliveryReport.results).to.exist;
+
+        });
+```
+
 
 ### Sent history (Logs)
 To obtain SMS(s) sent history(log). Instantiate `bipsms` with your account details then invoke `getLogs(options,callback(error,logs))` where
