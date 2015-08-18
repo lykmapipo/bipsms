@@ -1,0 +1,30 @@
+{
+    "results": [{
+        "messageId": "5908971644001839114",
+        "to": "41793026727",
+        "receivedAt": "2015-03-01T12:54:44.560+0000",
+        "from": "385998779111",
+        "text": "HEY hello world",
+        "cleanText": "hello world",
+        "keyword": "HEY",
+        "smsCount": 1
+    }, {
+        "messageId": "5904932597450690569",
+        "to": "41793026727",
+        "receivedAt": "2015-03-01T12:54:42.231+0000",
+        "from": "385998779111",
+        "text": "HEY how are you",
+        "cleanText": "how are you",
+        "keyword": "HEY",
+        "smsCount": 1
+    }, {
+        "messageId": "5904217701796992008",
+        "to": "41793026727",
+        "receivedAt": "2015-03-01T12:54:40.111+0000",
+        "from": "385998779111",
+        "text": "KEY hello world",
+        "cleanText": "hello world",
+        "keyword": "KEY",
+        "smsCount": 1
+    }]
+}

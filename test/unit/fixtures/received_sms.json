@@ -1,0 +1,21 @@
+{
+    "results": [{
+        "messageId": "df9839ab-6ab6-4abd-984d-ab3b7687e823",
+        "from": "38598111",
+        "to": "41793026727",
+        "text": "KEYWORD Test message",
+        "cleanText": "Test message",
+        "keyword": "KEYWORD",
+        "receivedAt": "2015-02-15T12:23:10.418+0100",
+        "smsCount": 1
+    }, {
+        "messageId": "ae4359fd-9ad6-4cdf-763d-ac1c5347d839",
+        "from": "38598111",
+        "to": "41793026727",
+        "text": "Test message without keyword.",
+        "cleanText": "Test message without keyword.",
+        "keyword": "",
+        "receivedAt": "2015-02-15T12:21:07.311+0100",
+        "smsCount": 1
+    }]
+}

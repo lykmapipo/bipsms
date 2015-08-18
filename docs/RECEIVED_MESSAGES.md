@@ -77,5 +77,6 @@ smsCount | int  | The number of sent message segments.
          "receivedAt":"2015-02-15T12:21:07.311+0100",
          "smsCount":1
       }
- 
+   ]
+}
 ```
