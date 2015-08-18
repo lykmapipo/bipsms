@@ -1,4 +1,4 @@
-# infobip Logs JSON API
+# infobip Send Logs JSON API
 
 Obtain SMS sent history
 
