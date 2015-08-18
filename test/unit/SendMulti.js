@@ -65,7 +65,7 @@ describe('Transport Send Multi', function() {
                 }];
             });
 
-        //send single sms to single destination
+        //send SMS(s)
         transport.sendMulti(sms, function(error, response) {
 
             expect(response).to.be.undefined;
@@ -116,7 +116,7 @@ describe('Transport Send Multi', function() {
                 return [200, single];
             });
 
-        //send a single sms to a single destination
+        //send SMS(s)
         transport.sendMulti(sms, function(error, response) {
 
             expect(error).to.be.null;
@@ -166,7 +166,7 @@ describe('Transport Send Multi', function() {
                 return [200, multi];
             });
 
-        //send single sms to multiple destination
+        //send SMS(s)
         transport.sendMulti(sms, function(error, response) {
 
             expect(error).to.be.null;

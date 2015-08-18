@@ -17,6 +17,42 @@ Firstly, you'll need a valid [Infobip account](https://accounts.infobip.com/sign
 ### Send single SMS to multiple destination
 
 ### Send multiple SMS to multiple destination
+To send multiple SMS, instantiate `bipsms` with your account details then invoke `sendMulti(sms,callback(error,response))` where
+- `sms` - is a collection of [SMS(s)](http://dev.infobip.com/docs/send-multiple-sms) to send
+- `error` - is any error encountered when sending SMS(s)
+- `response` - is a response of [sent SMS(s)](http://dev.infobip.com/docs/send-multiple-sms#section-smsresponse)
+
+#### Example
+```js
+var Transport = require('bipsms');
+var transport = new Transport({username:'<username>',password:'<password>'});
+
+//prepare sms(s) to send
+var sms = {
+            messages: [{
+                from: 'InfoSMS',
+                to: [
+                    '41793026727',
+                    '41793026731'
+                ],
+                text: 'May the Force be with you!'
+            }, {
+                from: '41793026700',
+                to: '41793026785',
+                text: 'A long time ago, in a galaxy far, far away.'
+            }]
+        };
+
+//send sms(s)
+transport.sendMulti(sms, function(error, response) {
+
+    expect(error).to.be.null;
+    expect(response).to.exist;
+    expect(response.messages).to.exist;
+
+});
+```
+
 
 ### Delivery report
 To obtain SMS(s) delivery reports, instantiate `bipsms` with your account details then invoke `getDeliveryReport(options,callback(error,logs))` where
