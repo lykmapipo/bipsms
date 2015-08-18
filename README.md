@@ -4,6 +4,8 @@
 
 Send SMS(s), query their delivery status and sending history(logs) in nodejs using infobip JSON API.
 
+*Note:! It strongly recommend using the [E.164 number formatting](https://en.wikipedia.org/wiki/E.164). E.164 numbers are internationally standardized to a fifteen digit maximum length. Phone numbers are usually prefixed with + (plus sign), followed by a country code, network code and the subscriber number. Phone numbers that are not E.164 formatted may work, depending on the handset or network.*
+
 ## Installation
 ``` bash
 $ npm install bipsms --save
@@ -13,8 +15,63 @@ $ npm install bipsms --save
 Firstly, you'll need a valid [Infobip account](https://accounts.infobip.com/signup). When you sign up for the account, you will set a username and password.
 
 ### Send single SMS to single destination
+To send single SMS to single destination, instantiate `bipsms` with your account details then invoke `sendSingle(sms,callback(error,response))` where
+- `sms` - is an [sms to send](http://dev.infobip.com/docs/send-single-sms)
+- `error` - is any error encountered when sending SMS(s)
+- `response` - is a response of [sent SMS(s)](http://dev.infobip.com/docs/send-single-sms#section-smsresponse)
+
+#### Example
+```js
+var Transport = require('bipsms');
+var transport = new Transport({username:'<username>',password:'<password>'});
+
+//prepare sms
+var sms = {
+            from: 'InfoSMS',
+            to: '41793026727',
+            text: 'Test SMS.'
+        };
+
+//send SMS
+transport.sendSingle(sms, function(error, response) {
+
+    expect(error).to.be.null;
+    expect(response).to.exist;
+    expect(response.messages).to.exist;
+
+});
+```
 
 ### Send single SMS to multiple destination
+To send single SMS to multiple destination, instantiate `bipsms` with your account details then invoke `sendSingle(sms,callback(error,response))` where
+- `sms` - is an [sms to send](http://dev.infobip.com/docs/send-single-sms#section-single-textual-message-to-multiple-destinations)
+- `error` - is any error encountered when sending SMS(s)
+- `response` - is a response of [sent SMS(s)](http://dev.infobip.com/docs/send-single-sms#section-smsresponse)
+
+#### Example
+```js
+var Transport = require('bipsms');
+var transport = new Transport({username:'<username>',password:'<password>'});
+
+//prepare SMS
+var sms = {
+            from: 'InfoSMS',
+            to: [
+                '41793026727',
+                '41793026834'
+            ],
+            text: 'Test SMS.'
+        };
+
+//send SMS
+transport.sendSingle(sms, function(error, response) {
+
+    expect(error).to.be.null;
+    expect(response).to.exist;
+    expect(response.messages).to.exist;
+
+});
+```
 
 ### Send multiple SMS to multiple destination
 To send multiple SMS, instantiate `bipsms` with your account details then invoke `sendMulti(sms,callback(error,response))` where
