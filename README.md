@@ -225,8 +225,15 @@ $ npm install
 $ npm test
 ```
 
-* Then run integration test
-Make sure you have put your account details in the `intergration.js` in `test/intergration` then run it
+### Integration test
+Make sure you have put your account details in `test/intergration/account.json` in the format
+```js
+{
+    "username": "<username>",
+    "password": "<password>"
+}
+```
+then run intergration test task as
 
 ```sh
 $ grunt intergration
