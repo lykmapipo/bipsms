@@ -4,7 +4,7 @@
 
 Send SMS(s), query their delivery status and sending history(logs) in nodejs using infobip JSON API.
 
-*Note:! It strongly recommend using the [E.164 number formatting](https://en.wikipedia.org/wiki/E.164). E.164 numbers are internationally standardized to a fifteen digit maximum length. Phone numbers are usually prefixed with + (plus sign), followed by a country code, network code and the subscriber number. Phone numbers that are not E.164 formatted may work, depending on the handset or network.*
+*Note:! It strongly recommend using the [E.164 number formatting](https://en.wikipedia.org/wiki/E.164) when sending SMS(s) using this library*
 
 ## Installation
 ``` bash
