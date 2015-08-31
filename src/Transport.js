@@ -7,9 +7,11 @@ var async = require('async');
 
 
 /**
+ * @constructor
  * @description infobip sms transport
  *              It uses infobip HTTP JSON API to send and receive sms.
- * @param {[type]} options [description]
+ * @param {Object} options options to configure the transport instance
+ * @public
  */
 function Transport(options) {
     //prepare extended options
@@ -39,8 +41,9 @@ function Transport(options) {
 
 
 /**
- * @description initalize transport
- * @return {[type]} [description]
+ * @function
+ * @description initalize transport and add options magic getter and setter
+ * @private
  */
 Transport.prototype._initialize = function() {
 
@@ -60,8 +63,12 @@ Transport.prototype._initialize = function() {
 
 
 /**
- * @description build base64 encode string of username:password
- * @return {[type]}                [description]
+ * @function
+ * @description prepare base64 encode string of username:password as authentication
+ *              token
+ * @param {Function} done a callback to invoke on success or failure
+ * @return {String}                base64 encoded authentication token
+ * @public
  */
 Transport.prototype.getAuthorizationToken = function(done) {
     //if there is username and password
@@ -108,17 +115,60 @@ Transport.prototype._parse = function(data) {
 };
 
 
+/**
+ * @function
+ * @description internal utility to process response results
+ * @param  {Error}   error    any request error
+ * @param  {Object}   response request response
+ * @param  {Object}   data     response data from the api call
+ * @param  {Function} done     a callback to invoke on success or error response
+ * @return {Object}            valid response data based on the api calls
+ * @private
+ */
+Transport.prototype._respond = function(error, response, data, done) {
+    //try to parse response data to valid JSON object
+    data = this._parse(data);
+
+    //if error backoff
+    if (error) {
+        done(error);
+    }
+    
+    //process response error
+    else if (response.statusCode !== 200) {
+        //process response data to error
+        var requestError = data.requestError || {};
+        var serviceException = requestError.serviceException || {};
+        var errorName = serviceException.messageId || 'UNAUTHORIZED';
+        var errorCode = response.statusCode || 401;
+        var errorMessage = serviceException.text || 'Invalid credentials';
+
+        var _error = new Error(errorMessage);
+        _error.code = errorCode;
+        _error.name = errorName;
+
+        done(_error);
+    }
+
+    //everything is okey return data as a reponse
+    else {
+        done(null, data);
+    }
+};
+
+
 
 /**
+ * @function
  * @description send single contextual sms to single or to multiple destination
- * @param  {[type]}   sms  [description]
- * @param  {Function} done [description]
- * @return {[type]}        [description]
+ * @param  {Object}   sms  valid sms object
+ * @param  {Function} done a callback to invoke on send success or failure
+ * @public
  */
 Transport.prototype.sendSingle = function(sms, done) {
 
     //TODO validate message
-    //TODO normalize from sms to e164
+    //TODO normalize numbers to e164 format
 
     async.waterfall(
         [
@@ -146,36 +196,7 @@ Transport.prototype.sendSingle = function(sms, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
-            //try to parse response data to valid JSON object
-            data = this._parse(data);
-
-            //if error backoff
-            if (error) {
-                done(error);
-            }
-
-            //if invalid credentials provided
-            //TODO handle other server side errors
-            else if (response.statusCode !== 200) {
-                //process response data to error
-
-                var requestError = data.requestError || {};
-                var serviceException = requestError.serviceException || {};
-                var errorName = serviceException.messageId || 'UNAUTHORIZED';
-                var errorCode = response.statusCode || 401;
-                var errorMessage = serviceException.text || 'Invalid credentials';
-
-                var _error = new Error(errorMessage);
-                _error.code = errorCode;
-                _error.name = errorName;
-
-                done(_error);
-            }
-
-            //everything is okey return data as sms sent report
-            else {
-                done(null, data);
-            }
+            this._respond(error, response, data, done);
         }.bind(this));
 };
 
@@ -216,36 +237,7 @@ Transport.prototype.sendMulti = function(sms, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
-            //try to parse response data to valid JSON object
-            data = this._parse(data);
-
-            //if error backoff
-            if (error) {
-                done(error);
-            }
-
-            //if invalid credentials provided
-            //TODO handle other server side errors
-            else if (response.statusCode !== 200) {
-                //process response data to error
-
-                var requestError = data.requestError || {};
-                var serviceException = requestError.serviceException || {};
-                var errorName = serviceException.messageId || 'UNAUTHORIZED';
-                var errorCode = response.statusCode || 401;
-                var errorMessage = serviceException.text || 'Invalid credentials';
-
-                var _error = new Error(errorMessage);
-                _error.code = errorCode;
-                _error.name = errorName;
-
-                done(_error);
-            }
-
-            //everything is okey return data as sms sent report
-            else {
-                done(null, data);
-            }
+            this._respond(error, response, data, done);
         }.bind(this));
 };
 
@@ -292,35 +284,7 @@ Transport.prototype.getDeliveryReport = function(options, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
-            //try to parse response data to valid JSON object
-            data = this._parse(data);
-
-            //if error backoff
-            if (error) {
-                done(error);
-            }
-
-            //if invalid credentials provided
-            //TODO handle other server side errors
-            else if (response.statusCode !== 200) {
-                //process response data to error
-                var requestError = data.requestError || {};
-                var serviceException = requestError.serviceException || {};
-                var errorName = serviceException.messageId || 'UNAUTHORIZED';
-                var errorCode = response.statusCode || 401;
-                var errorMessage = serviceException.text || 'Invalid credentials';
-
-                var _error = new Error(errorMessage);
-                _error.code = errorCode;
-                _error.name = errorName;
-
-                done(_error);
-            }
-
-            //everything is okey return data as delivery report
-            else {
-                done(null, data);
-            }
+            this._respond(error, response, data, done);
         }.bind(this));
 };
 
@@ -367,35 +331,7 @@ Transport.prototype.getLogs = function(options, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
-            //try to parse response data to valid JSON object
-            data = this._parse(data);
-
-            //if error backoff
-            if (error) {
-                done(error);
-            }
-
-            //if invalid credentials provided
-            //TODO handle other server side errors
-            else if (response.statusCode !== 200) {
-                //process response data to error
-                var requestError = data.requestError || {};
-                var serviceException = requestError.serviceException || {};
-                var errorName = serviceException.messageId || 'UNAUTHORIZED';
-                var errorCode = response.statusCode || 401;
-                var errorMessage = serviceException.text || 'Invalid credentials';
-
-                var _error = new Error(errorMessage);
-                _error.code = errorCode;
-                _error.name = errorName;
-
-                done(_error);
-            }
-
-            //everything is okey return data as logs 
-            else {
-                done(null, data);
-            }
+            this._respond(error, response, data, done);
         }.bind(this));
 };
 
@@ -432,35 +368,7 @@ Transport.prototype.getBalance = function(done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
-            //try to parse response data to valid JSON object
-            data = this._parse(data);
-
-            //if error backoff
-            if (error) {
-                done(error);
-            }
-
-            //if invalid credentials provided
-            //TODO handle other server side errors
-            else if (response.statusCode !== 200) {
-                //process response data to error
-                var requestError = data.requestError || {};
-                var serviceException = requestError.serviceException || {};
-                var errorName = serviceException.messageId || 'UNAUTHORIZED';
-                var errorCode = response.statusCode || 401;
-                var errorMessage = serviceException.text || 'Invalid credentials';
-
-                var _error = new Error(errorMessage);
-                _error.code = errorCode;
-                _error.name = errorName;
-
-                done(_error);
-            }
-
-            //everything is okey return data as balance
-            else {
-                done(null, data);
-            }
+            this._respond(error, response, data, done);
         }.bind(this));
 };
 
@@ -507,35 +415,7 @@ Transport.prototype.getReceived = function(options, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
-            //try to parse response data to valid JSON object
-            data = this._parse(data);
-
-            //if error backoff
-            if (error) {
-                done(error);
-            }
-
-            //if invalid credentials provided
-            //TODO handle other server side errors
-            else if (response.statusCode !== 200) {
-                //process response data to error
-                var requestError = data.requestError || {};
-                var serviceException = requestError.serviceException || {};
-                var errorName = serviceException.messageId || 'UNAUTHORIZED';
-                var errorCode = response.statusCode || 401;
-                var errorMessage = serviceException.text || 'Invalid credentials';
-
-                var _error = new Error(errorMessage);
-                _error.code = errorCode;
-                _error.name = errorName;
-
-                done(_error);
-            }
-
-            //everything is okey return data as received sms
-            else {
-                done(null, data);
-            }
+            this._respond(error, response, data, done);
         }.bind(this));
 };
 
@@ -581,35 +461,7 @@ Transport.prototype.getReceivedLogs = function(options, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
-            //try to parse response data to valid JSON object
-            data = this._parse(data);
-
-            //if error backoff
-            if (error) {
-                done(error);
-            }
-
-            //if invalid credentials provided
-            //TODO handle other server side errors
-            else if (response.statusCode !== 200) {
-                //process response data to error
-                var requestError = data.requestError || {};
-                var serviceException = requestError.serviceException || {};
-                var errorName = serviceException.messageId || 'UNAUTHORIZED';
-                var errorCode = response.statusCode || 401;
-                var errorMessage = serviceException.text || 'Invalid credentials';
-
-                var _error = new Error(errorMessage);
-                _error.code = errorCode;
-                _error.name = errorName;
-
-                done(_error);
-            }
-
-            //everything is okey return data as received sms(s) log
-            else {
-                done(null, data);
-            }
+            this._respond(error, response, data, done);
         }.bind(this));
 };
 
