@@ -301,7 +301,7 @@ $ npm test
 ```
 
 ### Integration test
-Make sure you have put your details in `test/intergration/intergration.json`. [Use this template]()
+Make sure you have put your details in `test/intergration/intergration.json`. [Use this template](https://github.com/lykmapipo/bipsms/blob/master/test/intergration/intergration_template.json)
 ```js
 {
     "account": {
