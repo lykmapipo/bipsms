@@ -12,10 +12,10 @@ $ npm install bipsms --save
 ```
 
 ## Usage
-Firstly, you'll need a valid [Infobip account](https://accounts.infobip.com/signup). When you sign up for the account, you will get a username and password.
+Firstly, you'll need a valid [Infobip account](https://accounts.infobip.com/signup).
 
 ### Send single SMS to single destination
-To send single SMS to single destination, instantiate `bipsms` with your account details then invoke `sendSingleSMS(sms,callback(error,response))` where
+To send single SMS to single destination, instantiate `bipsms` with your account details then invoke **`sendSingleSMS(sms,callback(error,response))`** where
 - `sms` - is an [sms to send](http://dev.infobip.com/docs/send-single-sms)
 - `error` - is any error encountered when sending SMS(s)
 - `response` - is a response of [sent SMS(s)](http://dev.infobip.com/docs/send-single-sms#section-smsresponse)
@@ -43,7 +43,7 @@ transport.sendSingleSMS(sms, function(error, response) {
 ```
 
 ### Send single SMS to multiple destination
-To send single SMS to multiple destination, instantiate `bipsms` with your account details then invoke `sendSingleSMS(sms,callback(error,response))` where
+To send single SMS to multiple destination, instantiate `bipsms` with your account details then invoke **`sendSingleSMS(sms,callback(error,response))`** where
 - `sms` - is an [sms to send](http://dev.infobip.com/docs/send-single-sms#section-single-textual-message-to-multiple-destinations)
 - `error` - is any error encountered when sending SMS(s)
 - `response` - is a response of [sent SMS(s)](http://dev.infobip.com/docs/send-single-sms#section-smsresponse)
@@ -74,7 +74,7 @@ transport.sendSingleSMS(sms, function(error, response) {
 ```
 
 ### Send multiple SMS to multiple destination
-To send multiple SMS, instantiate `bipsms` with your account details then invoke `sendMultiSMS(sms,callback(error,response))` where
+To send multiple SMS, instantiate `bipsms` with your account details then invoke **`sendMultiSMS(sms,callback(error,response))`** where
 - `sms` - is a collection of [SMS(s)](http://dev.infobip.com/docs/send-multiple-sms) to send
 - `error` - is any error encountered when sending SMS(s)
 - `response` - is a response of [sent SMS(s)](http://dev.infobip.com/docs/send-multiple-sms#section-smsresponse)
@@ -112,7 +112,7 @@ transport.sendMultiSMS(sms, function(error, response) {
 
 
 ### Delivery Reports
-To obtain SMS(s) delivery reports, instantiate `bipsms` with your account details then invoke `getDeliveryReporst(options,callback(error,logs))` where
+To obtain SMS(s) delivery reports, instantiate `bipsms` with your account details then invoke **`getDeliveryReporst(options,callback(error,logs))`** where
 - `options` - are valid [request parameters](http://dev.infobip.com/docs/delivery-reports) to be supplied on the request 
 - `error` - is any error encountered during requesting SMS(s) sent delivery report
 - `deliveryReport` - is SMS(s) [sent delivery reports](http://dev.infobip.com/docs/delivery-reports#section-smsreportresponse)
@@ -151,7 +151,7 @@ transport.getDeliveryReports({
 
 
 ### Sent SMS Logs (Send History)
-To obtain SMS(s) sent history(log), instantiate `bipsms` with your account details then invoke `getSentSMSLogs(options,callback(error,logs))` where
+To obtain SMS(s) sent history(log), instantiate `bipsms` with your account details then invoke **`getSentSMSLogs(options,callback(error,logs))`** where
 - `options` - are valid [request parameters](http://dev.infobip.com/docs/message-logs) to be supplied on the request 
 - `error` - is any error encountered during requesting SMS(s) sent history/logs
 - `logs` - is SMS(s) [sent history / logs](http://dev.infobip.com/docs/message-logs#section-response-format)
@@ -189,7 +189,7 @@ transport.getSentSMSLogs({
 ```
 
 ### Received SMS
-To obtain received SMS(s), instantiate `bipsms` with your account details then invoke `getReceivedSMS(options,callback(error,receivedSMS))` where
+To obtain received SMS(s), instantiate `bipsms` with your account details then invoke **`getReceivedSMS(options,callback(error,receivedSMS))`** where
 - `options` - are valid [request parameters](http://dev.infobip.com/docs/pull-received-messages) to be supplied on the request 
 - `error` - is any error encountered during requesting received SMS(s)
 - `receivedSMS` - are SMS(s) [received](http://dev.infobip.com/docs/pull-received-messages#section-smsresponse)
@@ -226,7 +226,7 @@ transport.getReceivedSMS({
 
 
 ### Received SMS Log
-To obtain received SMS(s) logs, instantiate `bipsms` with your account details then invoke `getReceivedSMSLogs(options,callback(error,logs))` where
+To obtain received SMS(s) logs, instantiate `bipsms` with your account details then invoke **`getReceivedSMSLogs(options,callback(error,logs))`** where
 - `options` - are valid [request parameters](http://dev.infobip.com/docs/received-messages-logs) to be supplied on the request 
 - `error` - is any error encountered during requesting received SMS(s) logs
 - `logs` - are SMS(s) [received logs](http://dev.infobip.com/docs/received-messages-logs#section-mologsresponse)
@@ -264,7 +264,7 @@ transport.getReceivedSMSLogs({
 ```
 
 ### Account Balance
-To obtain your account balance, instantiate `bipsms` with your account details and invoke `getBalance(callback(error,balance))` where
+To obtain your account balance, instantiate `bipsms` with your account details and invoke **`getBalance(callback(error,balance))`** where
 - `error` - is any error encountered during requesting account balance
 - `balance` - is a balance object with `balance` and `currency` as its properties.
 
