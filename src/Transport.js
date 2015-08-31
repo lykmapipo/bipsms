@@ -86,6 +86,28 @@ Transport.prototype.getAuthorizationToken = function(done) {
 };
 
 
+/**
+ * @function
+ * @description parsing given data to json object
+ * @param  {String|Object} data data to be parsed to JSON
+ * @return {Object}      JSON format of the data
+ * @private
+ */
+Transport.prototype._parse = function(data) {
+    data = data || {};
+    //try to parse data as a JSON
+    try {
+        data = JSON.parse(data);
+    }
+    //catch all errors and return a previous data
+    catch (error) {
+        data = data;
+    }
+
+    return data;
+};
+
+
 
 /**
  * @description send single contextual sms to single or to multiple destination
@@ -125,12 +147,7 @@ Transport.prototype.sendSingle = function(sms, done) {
         ],
         function finalize(error, response, data) {
             //try to parse response data
-            data = data || {};
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                data = data;
-            }
+            data = this._parse(data);
 
             //if error backoff
             if (error) {
@@ -159,7 +176,7 @@ Transport.prototype.sendSingle = function(sms, done) {
             else {
                 done(null, data);
             }
-        });
+        }.bind(this));
 };
 
 

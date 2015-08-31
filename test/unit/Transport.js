@@ -2,6 +2,7 @@
 
 //dependencies
 var expect = require('chai').expect;
+var faker = require('faker');
 var path = require('path');
 var Transport = require(path.join(__dirname, '..', '..'));
 
@@ -44,6 +45,30 @@ describe('Transport', function() {
             done();
         });
 
+    });
+
+    it('should be able to parse a given json string safely', function(done) {
+        var data = faker.helpers.userCard();
+        var dataAsString = JSON.stringify(data);
+
+        var transport = new Transport();
+        var dataAsJson = transport._parse(dataAsString);
+
+        expect(dataAsJson).to.eql(data);
+
+        done();
+    });
+
+
+    it('should be able to parse a given json object safely', function(done) {
+        var data = faker.helpers.userCard();
+
+        var transport = new Transport();
+        var dataAsJson = transport._parse(data);
+
+        expect(dataAsJson).to.eql(data);
+
+        done();
     });
 
 });
