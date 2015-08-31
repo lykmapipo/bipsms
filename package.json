@@ -1,7 +1,7 @@
 {
     "name": "bipsms",
     "version": "0.1.0",
-    "description": "infobip sms transport",
+    "description": "Send SMS(s), query their delivery reports and sending history in nodejs using infobip JSON API",
     "main": "src/index.js",
     "scripts": {
         "test": "grunt test"
@@ -11,16 +11,18 @@
         "url": "https://github.com/lykmapipo/bipsms"
     },
     "keywords": [
-        "julisha",
         "infobip",
         "sms",
         "transport",
         "send",
+        "inbox",
         "receive",
+        "received logs",
         "balance",
         "report",
         "delivery",
-        "logs"
+        "logs",
+        "send logs"
     ],
     "author": "lykmapipo <lallyelias87@gmail.com>",
     "license": "MIT",

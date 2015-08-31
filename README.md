@@ -2,7 +2,7 @@
 
 [![build status](https://secure.travis-ci.org/lykmapipo/bipsms.png)](http://travis-ci.org/lykmapipo/bipsms)
 
-Send SMS(s), query their delivery status and sending history in [nodejs](https://nodejs.org) using [infobip JSON API v1](http://dev.infobip.com/).
+Send SMS(s), query their delivery reports and sending history in [nodejs](https://nodejs.org) using [infobip JSON API](http://dev.infobip.com/).
 
 *Note:! It strongly recommend using the [E.164 number formatting](https://en.wikipedia.org/wiki/E.164) when sending SMS(s)*
 
