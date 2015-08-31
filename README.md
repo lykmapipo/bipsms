@@ -308,7 +308,18 @@ Make sure you have put your details in `test/intergration/intergration.json`. [U
         "username": "<name>",
         "password": "<password>"
     },
-    "from": "<sender id>"
+    "from": "<sender id>",
+    "singleSingleSMS": {
+        "single": {
+            "to": "<number>"
+        },
+        "multi": {
+            "to": ["<number>", "<number>"]
+        }
+    },
+    "sendMultiSMS": {
+        "to": ["<number>", "<number>"]
+    }
 }
 ```
 then run intergration test task as
