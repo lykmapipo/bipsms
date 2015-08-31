@@ -11,7 +11,7 @@ var multi =
 
 //TODO test for alternative flow
 
-describe('Transport Send Multi', function() {
+describe('Send Multiple SMS', function() {
 
     it('should have /sms/1/text/multi as send multi sms url', function(done) {
         var transport = new Transport();
@@ -64,7 +64,7 @@ describe('Transport Send Multi', function() {
             });
 
         //send SMS(s)
-        transport.sendMulti(sms, function(error, response) {
+        transport.sendMultiSMS(sms, function(error, response) {
 
             expect(response).to.be.undefined;
             expect(error).to.exist;
@@ -114,7 +114,7 @@ describe('Transport Send Multi', function() {
             });
 
         //send SMS(s)
-        transport.sendMulti(sms, function(error, response) {
+        transport.sendMultiSMS(sms, function(error, response) {
 
             expect(error).to.be.null;
             expect(response).to.exist;

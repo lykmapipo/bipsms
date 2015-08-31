@@ -1,0 +1,7 @@
+{
+    "account": {
+        "username": "<name>",
+        "password": "<password>"
+    },
+    "from": "<sender id>"
+}

@@ -8,17 +8,16 @@ var faker = require('faker');
 var url = require('url-querystring');
 var expect = require('chai').expect;
 var Transport = require(path.join(__dirname, '..', '..'));
-var receivedSMS = require(path.join(__dirname, 'fixtures', 'received_sms.json'));
+var logs = require(path.join(__dirname, 'fixtures', 'logs.json'));
 
 //TODO test for alternative flow
-//TODO assert request urls
 
-describe('Transport Received', function() {
+describe('Sent SMS Logs', function() {
 
-    it('should have /sms/1/inbox/reports as default received sms url', function(done) {
+    it('should have /sms/1/logs as default logs url', function(done) {
         var transport = new Transport();
 
-        expect(transport.receivedUrl).to.equal('/sms/1/inbox/reports');
+        expect(transport.logsUrl).to.equal('/sms/1/logs');
 
         done();
     });
@@ -31,7 +30,7 @@ describe('Transport Received', function() {
         });
 
         nock(transport.baseUrl)
-            .get(transport.receivedUrl)
+            .get(transport.logsUrl)
             .reply(function( /*uri, requestBody*/ ) {
                 //assert headers
                 expect(this.req.headers.accept).to.equal('application/json');
@@ -49,10 +48,10 @@ describe('Transport Received', function() {
                 }];
             });
 
-        //request account received SMS(s)
-        transport.getReceived(function(error, receivedSMS) {
+        //request account logs
+        transport.getSentSMSLogs(function(error, logs) {
 
-            expect(receivedSMS).to.be.undefined;
+            expect(logs).to.be.undefined;
             expect(error).to.exist;
             expect(error.code).to.equal(401);
             expect(error.name).to.equal('UNAUTHORIZED');
@@ -63,44 +62,44 @@ describe('Transport Received', function() {
 
     });
 
-    it('should return all received SMS(s) so far', function(done) {
+    it('should return all current SMS sent logs', function(done) {
         var transport = new Transport({
             username: faker.internet.userName(),
             password: faker.internet.password()
         });
 
         nock(transport.baseUrl)
-            .get(transport.receivedUrl)
+            .get(transport.logsUrl)
             .reply(function( /*uri, requestBody*/ ) {
                 //assert headers
                 expect(this.req.headers.accept).to.equal('application/json');
                 expect(this.req.headers.host).to.equal('api.infobip.com');
                 expect(this.req.headers.authorization).to.not.be.null;
 
-                return [200, receivedSMS];
+                return [200, logs];
             });
 
-        //request account received SMS(s)
-        transport.getReceived(function(error, receivedSMS) {
+        //request all account logs
+        transport.getSentSMSLogs(function(error, logs) {
 
             expect(error).to.be.null;
-            expect(receivedSMS).to.exist;
-            expect(receivedSMS.results).to.exist;
-            expect(receivedSMS.results.length).to.be.equal(2);
+            expect(logs).to.exist;
+            expect(logs.results).to.exist;
+            expect(logs.results.length).to.be.equal(3);
 
             done();
         });
 
     });
 
-    it('should return received SMS(s) based on options provided', function(done) {
+    it('should return current SMS sent logs based on options provided', function(done) {
         var transport = new Transport({
             username: faker.internet.userName(),
             password: faker.internet.password()
         });
 
         nock(transport.baseUrl)
-            .get(transport.receivedUrl)
+            .get(transport.logsUrl)
             .query(true)
             .reply(function( /*uri, requestBody*/ ) {
                 //assert headers
@@ -113,19 +112,19 @@ describe('Transport Received', function() {
                 expect(query).to.exist;
 
                 return [200, {
-                    results: _.take(receivedSMS.results, query.limit)
+                    results: _.filter(logs.results, query) //filter logs based on query
                 }];
             });
 
-        //request account (inbox) received sms
-        transport.getReceived({
-            limit: 1
-        }, function(error, receivedSMS) {
+        //request account logs
+        transport.getSentSMSLogs({
+            bulkId: '82d1d36e-e4fb-4194-8b93-caeb053bd327'
+        }, function(error, logs) {
 
             expect(error).to.be.null;
-            expect(receivedSMS).to.exist;
-            expect(receivedSMS.results).to.exist;
-            expect(receivedSMS.results.length).to.be.equal(1);
+            expect(logs).to.exist;
+            expect(logs.results).to.exist;
+            expect(logs.results.length).to.be.above(0);
 
             done();
         });

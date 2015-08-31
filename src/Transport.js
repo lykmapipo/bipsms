@@ -133,7 +133,7 @@ Transport.prototype._respond = function(error, response, data, done) {
     if (error) {
         done(error);
     }
-    
+
     //process response error
     else if (response.statusCode !== 200) {
         //process response data to error
@@ -165,7 +165,7 @@ Transport.prototype._respond = function(error, response, data, done) {
  * @param  {Function} done a callback to invoke on send success or failure
  * @public
  */
-Transport.prototype.sendSingle = function(sms, done) {
+Transport.prototype.sendSingleSMS = function(sms, done) {
 
     //TODO validate message
     //TODO normalize numbers to e164 format
@@ -202,12 +202,14 @@ Transport.prototype.sendSingle = function(sms, done) {
 
 
 /**
+ * @function
  * @description send sms(s) to single or multiple destination
- * @param  {[type]}   sms  [description]
- * @param  {Function} done [description]
- * @return {[type]}        [description]
+ * @param  {Object}   sms  valid multiple SMS object to send
+ * @param  {Function} done a callback to invoke on success or error
+ * @return {Object}        sent multiple SMS response
+ * @public
  */
-Transport.prototype.sendMulti = function(sms, done) {
+Transport.prototype.sendMultiSMS = function(sms, done) {
     //TODO validate message
     //TODO normalize from sms to e164
 
@@ -244,12 +246,14 @@ Transport.prototype.sendMulti = function(sms, done) {
 
 
 /**
+ * @function
  * @description obtain delivery report of sent sms(s)
- * @param  {[type]}   options [description]
- * @param  {Function} done    [description]
- * @return {[type]}           [description]
+ * @param  {Object}   options filters to apply on delivery reports
+ * @param  {Function} done    a callback to invoke on success or failure
+ * @return {Object}           SMS sent delivery reports
+ * @public
  */
-Transport.prototype.getDeliveryReport = function(options, done) {
+Transport.prototype.getDeliveryReports = function(options, done) {
     //if no options provided
     if (_.size(arguments) === 1) {
         done = options;
@@ -291,12 +295,14 @@ Transport.prototype.getDeliveryReport = function(options, done) {
 
 
 /**
- * @description  obtain sms send history
- * @param  {[type]}   options [description]
- * @param  {Function} done    [description]
- * @return {[type]}           [description]
+ * @function
+ * @description  obtain sms send history/logs
+ * @param  {Object}   options filters to apply on sent sms logs
+ * @param  {Function} done    a callback to  invoke on success or error
+ * @return {Object}           sent SMS logs response
+ * @public
  */
-Transport.prototype.getLogs = function(options, done) {
+Transport.prototype.getSentSMSLogs = function(options, done) {
     //if no options provided
     if (_.size(arguments) === 1) {
         done = options;
@@ -375,12 +381,14 @@ Transport.prototype.getBalance = function(done) {
 
 
 /**
+ * @function
  * @description obtain received sms(s) from account inbox
- * @param  {[type]}   options [description]
- * @param  {Function} done    [description]
- * @return {[type]}           [description]
+ * @param  {[type]}   options filters to apply on received SMS
+ * @param  {Function} done    a callback to invoke on success or failure
+ * @return {Object}           received message response
+ * @public
  */
-Transport.prototype.getReceived = function(options, done) {
+Transport.prototype.getReceivedSMS = function(options, done) {
     //if no options provided
     if (_.size(arguments) === 1) {
         done = options;
@@ -421,12 +429,14 @@ Transport.prototype.getReceived = function(options, done) {
 
 
 /**
+ * @function
  * @description obtain received sms(s) log from account inbox
- * @param  {[type]}   options [description]
- * @param  {Function} done    [description]
- * @return {[type]}           [description]
+ * @param  {Object}   options filters to apply on received SMS logs
+ * @param  {Function} done    a callback to invoke on success or failure
+ * @return {Object}           received SMS log response
+ * @public
  */
-Transport.prototype.getReceivedLogs = function(options, done) {
+Transport.prototype.getReceivedSMSLogs = function(options, done) {
     //if no options provided
     if (_.size(arguments) === 1) {
         done = options;
@@ -465,5 +475,5 @@ Transport.prototype.getReceivedLogs = function(options, done) {
         }.bind(this));
 };
 
-//export transport
+//export transport constructor
 module.exports = exports = Transport;

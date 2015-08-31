@@ -8,17 +8,16 @@ var faker = require('faker');
 var url = require('url-querystring');
 var expect = require('chai').expect;
 var Transport = require(path.join(__dirname, '..', '..'));
-var receivedSMSLog = require(path.join(__dirname, 'fixtures', 'received_sms_logs.json'));
+var deliveries = require(path.join(__dirname, 'fixtures', 'deliveries.json'));
 
 //TODO test for alternative flow
-//TODO assert request urls
 
-describe('Transport Received Log', function() {
+describe('Delivery Reports', function() {
 
-    it('should have /sms/1/inbox/logs as default received sms log url', function(done) {
+    it('should have /sms/1/reports as default delivery url', function(done) {
         var transport = new Transport();
 
-        expect(transport.receivedLogUrl).to.equal('/sms/1/inbox/logs');
+        expect(transport.deliveryReportUrl).to.equal('/sms/1/reports');
 
         done();
     });
@@ -31,7 +30,7 @@ describe('Transport Received Log', function() {
         });
 
         nock(transport.baseUrl)
-            .get(transport.receivedLogUrl)
+            .get(transport.deliveryReportUrl)
             .reply(function( /*uri, requestBody*/ ) {
                 //assert headers
                 expect(this.req.headers.accept).to.equal('application/json');
@@ -49,10 +48,10 @@ describe('Transport Received Log', function() {
                 }];
             });
 
-        //request account received SMS(s) log
-        transport.getReceivedLogs(function(error, receivedSMSLog) {
+        //request account deliveries
+        transport.getDeliveryReports(function(error, deliveryReport) {
 
-            expect(receivedSMSLog).to.be.undefined;
+            expect(deliveryReport).to.be.undefined;
             expect(error).to.exist;
             expect(error.code).to.equal(401);
             expect(error.name).to.equal('UNAUTHORIZED');
@@ -63,44 +62,44 @@ describe('Transport Received Log', function() {
 
     });
 
-    it('should return all received SMS(s) log', function(done) {
+    it('should return all current SMS delivery report', function(done) {
         var transport = new Transport({
             username: faker.internet.userName(),
             password: faker.internet.password()
         });
 
         nock(transport.baseUrl)
-            .get(transport.receivedLogUrl)
+            .get(transport.deliveryReportUrl)
             .reply(function( /*uri, requestBody*/ ) {
                 //assert headers
                 expect(this.req.headers.accept).to.equal('application/json');
                 expect(this.req.headers.host).to.equal('api.infobip.com');
                 expect(this.req.headers.authorization).to.not.be.null;
 
-                return [200, receivedSMSLog];
+                return [200, deliveries];
             });
 
-        //request account received SMS(s) log
-        transport.getReceivedLogs(function(error, receivedSMSLog) {
+        //request account deliveries
+        transport.getDeliveryReports(function(error, deliveryReport) {
 
             expect(error).to.be.null;
-            expect(receivedSMSLog).to.exist;
-            expect(receivedSMSLog.results).to.exist;
-            expect(receivedSMSLog.results.length).to.be.equal(4);
+            expect(deliveryReport).to.exist;
+            expect(deliveryReport.results).to.exist;
+            expect(deliveryReport.results.length).to.be.equal(3);
 
             done();
         });
 
     });
 
-    it('should return received SMS(s) log based on options provided', function(done) {
+    it('should return current SMS sent deliveries based on options provided', function(done) {
         var transport = new Transport({
             username: faker.internet.userName(),
             password: faker.internet.password()
         });
 
         nock(transport.baseUrl)
-            .get(transport.receivedLogUrl)
+            .get(transport.deliveryReportUrl)
             .query(true)
             .reply(function( /*uri, requestBody*/ ) {
                 //assert headers
@@ -113,19 +112,19 @@ describe('Transport Received Log', function() {
                 expect(query).to.exist;
 
                 return [200, {
-                    results: _.take(receivedSMSLog.results, query.limit)
+                    results: _.filter(deliveries.results, query) //filter deliveries based on query
                 }];
             });
 
-        //request account (inbox) received sms log
-        transport.getReceivedLogs({
-            limit: 2
-        }, function(error, receivedSMSLog) {
+        //request account deliveries
+        transport.getDeliveryReports({
+            bulkId: '80664c0c-e1ca-414d-806a-5caf146463df'
+        }, function(error, deliveryReport) {
 
             expect(error).to.be.null;
-            expect(receivedSMSLog).to.exist;
-            expect(receivedSMSLog.results).to.exist;
-            expect(receivedSMSLog.results.length).to.be.equal(2);
+            expect(deliveryReport).to.exist;
+            expect(deliveryReport.results).to.exist;
+            expect(deliveryReport.results.length).to.be.above(0);
 
             done();
         });

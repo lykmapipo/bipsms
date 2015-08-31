@@ -13,7 +13,7 @@ var multi =
 
 //TODO test for alternative flow
 
-describe('Transport Send Single', function() {
+describe('Send Single SMS', function() {
 
     it('should have /sms/1/text/single as send single sms url', function(done) {
         var transport = new Transport();
@@ -57,7 +57,7 @@ describe('Transport Send Single', function() {
             });
 
         //send single sms to single destination
-        transport.sendSingle(sms, function(error, response) {
+        transport.sendSingleSMS(sms, function(error, response) {
 
             expect(response).to.be.undefined;
             expect(error).to.exist;
@@ -99,7 +99,7 @@ describe('Transport Send Single', function() {
             });
 
         //send a single sms to a single destination
-        transport.sendSingle(sms, function(error, response) {
+        transport.sendSingleSMS(sms, function(error, response) {
 
             expect(error).to.be.null;
             expect(response).to.exist;
@@ -143,7 +143,7 @@ describe('Transport Send Single', function() {
             });
 
         //send single sms to multiple destination
-        transport.sendSingle(sms, function(error, response) {
+        transport.sendSingleSMS(sms, function(error, response) {
 
             expect(error).to.be.null;
             expect(response).to.exist;

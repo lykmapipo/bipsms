@@ -9,7 +9,7 @@ var Transport = require(path.join(__dirname, '..', '..'));
 
 //TODO test for alternative flow
 
-describe('Transport Balance', function() {
+describe('Balance', function() {
 
     it('should have /account/1/balance as default balance url', function(done) {
         var transport = new Transport();
