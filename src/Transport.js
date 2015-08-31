@@ -146,7 +146,7 @@ Transport.prototype.sendSingle = function(sms, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
-            //try to parse response data
+            //try to parse response data to valid JSON object
             data = this._parse(data);
 
             //if error backoff
@@ -216,13 +216,8 @@ Transport.prototype.sendMulti = function(sms, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
-            //try to parse response data
-            data = data || {};
-            try {
-                data = JSON.parse(data);
-            } catch (error) {
-                data = data;
-            }
+            //try to parse response data to valid JSON object
+            data = this._parse(data);
 
             //if error backoff
             if (error) {
@@ -251,7 +246,7 @@ Transport.prototype.sendMulti = function(sms, done) {
             else {
                 done(null, data);
             }
-        });
+        }.bind(this));
 };
 
 
@@ -297,6 +292,9 @@ Transport.prototype.getDeliveryReport = function(options, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
+            //try to parse response data to valid JSON object
+            data = this._parse(data);
+
             //if error backoff
             if (error) {
                 done(error);
@@ -306,7 +304,6 @@ Transport.prototype.getDeliveryReport = function(options, done) {
             //TODO handle other server side errors
             else if (response.statusCode !== 200) {
                 //process response data to error
-                data = JSON.parse(data) || {};
                 var requestError = data.requestError || {};
                 var serviceException = requestError.serviceException || {};
                 var errorName = serviceException.messageId || 'UNAUTHORIZED';
@@ -322,10 +319,9 @@ Transport.prototype.getDeliveryReport = function(options, done) {
 
             //everything is okey return data as delivery report
             else {
-                var deliveryReport = JSON.parse(data);
-                done(null, deliveryReport);
+                done(null, data);
             }
-        });
+        }.bind(this));
 };
 
 
@@ -371,6 +367,9 @@ Transport.prototype.getLogs = function(options, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
+            //try to parse response data to valid JSON object
+            data = this._parse(data);
+
             //if error backoff
             if (error) {
                 done(error);
@@ -380,7 +379,6 @@ Transport.prototype.getLogs = function(options, done) {
             //TODO handle other server side errors
             else if (response.statusCode !== 200) {
                 //process response data to error
-                data = JSON.parse(data) || {};
                 var requestError = data.requestError || {};
                 var serviceException = requestError.serviceException || {};
                 var errorName = serviceException.messageId || 'UNAUTHORIZED';
@@ -396,10 +394,9 @@ Transport.prototype.getLogs = function(options, done) {
 
             //everything is okey return data as logs 
             else {
-                var logs = JSON.parse(data);
-                done(null, logs);
+                done(null, data);
             }
-        });
+        }.bind(this));
 };
 
 
@@ -435,6 +432,9 @@ Transport.prototype.getBalance = function(done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
+            //try to parse response data to valid JSON object
+            data = this._parse(data);
+
             //if error backoff
             if (error) {
                 done(error);
@@ -444,7 +444,6 @@ Transport.prototype.getBalance = function(done) {
             //TODO handle other server side errors
             else if (response.statusCode !== 200) {
                 //process response data to error
-                data = JSON.parse(data) || {};
                 var requestError = data.requestError || {};
                 var serviceException = requestError.serviceException || {};
                 var errorName = serviceException.messageId || 'UNAUTHORIZED';
@@ -460,10 +459,9 @@ Transport.prototype.getBalance = function(done) {
 
             //everything is okey return data as balance
             else {
-                var balance = JSON.parse(data);
-                done(null, balance);
+                done(null, data);
             }
-        });
+        }.bind(this));
 };
 
 
@@ -509,6 +507,9 @@ Transport.prototype.getReceived = function(options, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
+            //try to parse response data to valid JSON object
+            data = this._parse(data);
+
             //if error backoff
             if (error) {
                 done(error);
@@ -518,7 +519,6 @@ Transport.prototype.getReceived = function(options, done) {
             //TODO handle other server side errors
             else if (response.statusCode !== 200) {
                 //process response data to error
-                data = JSON.parse(data) || {};
                 var requestError = data.requestError || {};
                 var serviceException = requestError.serviceException || {};
                 var errorName = serviceException.messageId || 'UNAUTHORIZED';
@@ -534,10 +534,9 @@ Transport.prototype.getReceived = function(options, done) {
 
             //everything is okey return data as received sms
             else {
-                var receivedSMS = JSON.parse(data);
-                done(null, receivedSMS);
+                done(null, data);
             }
-        });
+        }.bind(this));
 };
 
 
@@ -582,6 +581,9 @@ Transport.prototype.getReceivedLogs = function(options, done) {
             }.bind(this)
         ],
         function finalize(error, response, data) {
+            //try to parse response data to valid JSON object
+            data = this._parse(data);
+
             //if error backoff
             if (error) {
                 done(error);
@@ -591,7 +593,6 @@ Transport.prototype.getReceivedLogs = function(options, done) {
             //TODO handle other server side errors
             else if (response.statusCode !== 200) {
                 //process response data to error
-                data = JSON.parse(data) || {};
                 var requestError = data.requestError || {};
                 var serviceException = requestError.serviceException || {};
                 var errorName = serviceException.messageId || 'UNAUTHORIZED';
@@ -607,10 +608,9 @@ Transport.prototype.getReceivedLogs = function(options, done) {
 
             //everything is okey return data as received sms(s) log
             else {
-                var receivedSMSLog = JSON.parse(data);
-                done(null, receivedSMSLog);
+                done(null, data);
             }
-        });
+        }.bind(this));
 };
 
 //export transport

@@ -14,7 +14,13 @@
         "julisha",
         "infobip",
         "sms",
-        "transport"
+        "transport",
+        "send",
+        "receive",
+        "balance",
+        "report",
+        "delivery",
+        "logs"
     ],
     "author": "lykmapipo <lallyelias87@gmail.com>",
     "license": "MIT",
