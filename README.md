@@ -15,7 +15,7 @@ $ npm install bipsms --save
 Firstly, you'll need a valid [Infobip account](https://accounts.infobip.com/signup). When you sign up for the account, you will get a username and password.
 
 ### Send single SMS to single destination
-To send single SMS to single destination, instantiate `bipsms` with your account details then invoke `sendSingle(sms,callback(error,response))` where
+To send single SMS to single destination, instantiate `bipsms` with your account details then invoke `sendSingleSMS(sms,callback(error,response))` where
 - `sms` - is an [sms to send](http://dev.infobip.com/docs/send-single-sms)
 - `error` - is any error encountered when sending SMS(s)
 - `response` - is a response of [sent SMS(s)](http://dev.infobip.com/docs/send-single-sms#section-smsresponse)
@@ -33,7 +33,7 @@ var sms = {
         };
 
 //send SMS
-transport.sendSingle(sms, function(error, response) {
+transport.sendSingleSMS(sms, function(error, response) {
 
     expect(error).to.be.null;
     expect(response).to.exist;
@@ -43,7 +43,7 @@ transport.sendSingle(sms, function(error, response) {
 ```
 
 ### Send single SMS to multiple destination
-To send single SMS to multiple destination, instantiate `bipsms` with your account details then invoke `sendSingle(sms,callback(error,response))` where
+To send single SMS to multiple destination, instantiate `bipsms` with your account details then invoke `sendSingleSMS(sms,callback(error,response))` where
 - `sms` - is an [sms to send](http://dev.infobip.com/docs/send-single-sms#section-single-textual-message-to-multiple-destinations)
 - `error` - is any error encountered when sending SMS(s)
 - `response` - is a response of [sent SMS(s)](http://dev.infobip.com/docs/send-single-sms#section-smsresponse)
@@ -64,7 +64,7 @@ var sms = {
         };
 
 //send SMS
-transport.sendSingle(sms, function(error, response) {
+transport.sendSingleSMS(sms, function(error, response) {
 
     expect(error).to.be.null;
     expect(response).to.exist;
@@ -74,7 +74,7 @@ transport.sendSingle(sms, function(error, response) {
 ```
 
 ### Send multiple SMS to multiple destination
-To send multiple SMS, instantiate `bipsms` with your account details then invoke `sendMulti(sms,callback(error,response))` where
+To send multiple SMS, instantiate `bipsms` with your account details then invoke `sendMultiSMS(sms,callback(error,response))` where
 - `sms` - is a collection of [SMS(s)](http://dev.infobip.com/docs/send-multiple-sms) to send
 - `error` - is any error encountered when sending SMS(s)
 - `response` - is a response of [sent SMS(s)](http://dev.infobip.com/docs/send-multiple-sms#section-smsresponse)
@@ -101,7 +101,7 @@ var sms = {
         };
 
 //send sms(s)
-transport.sendMulti(sms, function(error, response) {
+transport.sendMultiSMS(sms, function(error, response) {
 
     expect(error).to.be.null;
     expect(response).to.exist;
@@ -111,8 +111,8 @@ transport.sendMulti(sms, function(error, response) {
 ```
 
 
-### Delivery report
-To obtain SMS(s) delivery reports, instantiate `bipsms` with your account details then invoke `getDeliveryReport(options,callback(error,logs))` where
+### Delivery Reports
+To obtain SMS(s) delivery reports, instantiate `bipsms` with your account details then invoke `getDeliveryReporst(options,callback(error,logs))` where
 - `options` - are valid [request parameters](http://dev.infobip.com/docs/delivery-reports) to be supplied on the request 
 - `error` - is any error encountered during requesting SMS(s) sent delivery report
 - `deliveryReport` - is SMS(s) [sent delivery reports](http://dev.infobip.com/docs/delivery-reports#section-smsreportresponse)
@@ -124,7 +124,7 @@ To obtain SMS(s) delivery reports, instantiate `bipsms` with your account detail
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
-transport.getDeliveryReport(function(error, deliveryReport) {
+transport.getDeliveryReporst(function(error, deliveryReport) {
 
             expect(error).to.be.null;
             expect(deliveryReport).to.exist;
@@ -138,7 +138,7 @@ transport.getDeliveryReport(function(error, deliveryReport) {
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
-transport.getDeliveryReport({
+transport.getDeliveryReports({
             bulkId: '<bulkId>'
         },function(error, deliveryReport) {
 
@@ -150,8 +150,8 @@ transport.getDeliveryReport({
 ```
 
 
-### Sent history (Logs)
-To obtain SMS(s) sent history(log), instantiate `bipsms` with your account details then invoke `getLogs(options,callback(error,logs))` where
+### Sent SMS Logs (Send History)
+To obtain SMS(s) sent history(log), instantiate `bipsms` with your account details then invoke `getSentSMSLogs(options,callback(error,logs))` where
 - `options` - are valid [request parameters](http://dev.infobip.com/docs/message-logs) to be supplied on the request 
 - `error` - is any error encountered during requesting SMS(s) sent history/logs
 - `logs` - is SMS(s) [sent history / logs](http://dev.infobip.com/docs/message-logs#section-response-format)
@@ -163,7 +163,7 @@ To obtain SMS(s) sent history(log), instantiate `bipsms` with your account detai
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
-transport.getLogs(function(error, logs) {
+transport.getSentSMSLogs(function(error, logs) {
 
             expect(error).to.be.null;
             expect(logs).to.exist;
@@ -177,7 +177,7 @@ transport.getLogs(function(error, logs) {
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
-transport.getLogs({
+transport.getSentSMSLogs({
             bulkId: '<bulkId>'
         },function(error, logs) {
 
@@ -189,7 +189,7 @@ transport.getLogs({
 ```
 
 ### Received SMS
-To obtain received SMS(s), instantiate `bipsms` with your account details then invoke `getReceivedLogs(options,callback(error,receivedSMS))` where
+To obtain received SMS(s), instantiate `bipsms` with your account details then invoke `getReceivedSMS(options,callback(error,receivedSMS))` where
 - `options` - are valid [request parameters](http://dev.infobip.com/docs/pull-received-messages) to be supplied on the request 
 - `error` - is any error encountered during requesting received SMS(s)
 - `receivedSMS` - are SMS(s) [received](http://dev.infobip.com/docs/pull-received-messages#section-smsresponse)
@@ -199,7 +199,7 @@ To obtain received SMS(s), instantiate `bipsms` with your account details then i
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
-transport.getReceived(function(error, receivedSMS) {
+transport.getReceivedSMS(function(error, receivedSMS) {
 
             expect(error).to.be.null;
             expect(receivedSMS).to.exist;
@@ -213,7 +213,7 @@ transport.getReceived(function(error, receivedSMS) {
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
-transport.getReceived({
+transport.getReceivedSMS({
             limit: '<limit>'
         },function(error, receivedSMS) {
 
@@ -226,7 +226,7 @@ transport.getReceived({
 
 
 ### Received SMS Log
-To obtain received SMS(s) logs, instantiate `bipsms` with your account details then invoke `getReceivedLogs(options,callback(error,logs))` where
+To obtain received SMS(s) logs, instantiate `bipsms` with your account details then invoke `getReceivedSMSLogs(options,callback(error,logs))` where
 - `options` - are valid [request parameters](http://dev.infobip.com/docs/received-messages-logs) to be supplied on the request 
 - `error` - is any error encountered during requesting received SMS(s) logs
 - `logs` - are SMS(s) [received logs](http://dev.infobip.com/docs/received-messages-logs#section-mologsresponse)
@@ -238,7 +238,7 @@ To obtain received SMS(s) logs, instantiate `bipsms` with your account details t
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
-transport.getReceivedLogs(function(error, logs) {
+transport.getReceivedSMSLogs(function(error, logs) {
 
             expect(error).to.be.null;
             expect(logs).to.exist;
@@ -252,7 +252,7 @@ transport.getReceivedLogs(function(error, logs) {
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
-transport.getReceivedLogs({
+transport.getReceivedSMSLogs({
             limit: '<limit>'
         },function(error, logs) {
 
@@ -263,7 +263,7 @@ transport.getReceivedLogs({
         });
 ```
 
-### Account balance
+### Account Balance
 To obtain your account balance, instantiate `bipsms` with your account details and invoke `getBalance(callback(error,balance))` where
 - `error` - is any error encountered during requesting account balance
 - `balance` - is a balance object with `balance` and `currency` as its properties.
@@ -301,11 +301,14 @@ $ npm test
 ```
 
 ### Integration test
-Make sure you have put your account details in `test/intergration/account.json` in the format
+Make sure you have put your details in `test/intergration/intergration.json`. [Use this template]()
 ```js
 {
-    "username": "<username>",
-    "password": "<password>"
+    "account": {
+        "username": "<name>",
+        "password": "<password>"
+    },
+    "from": "<sender id>"
 }
 ```
 then run intergration test task as
