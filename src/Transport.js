@@ -28,7 +28,8 @@ function Transport(options) {
         sendSingleUrl: '/sms/1/text/single',
         sendMultiUrl: '/sms/1/text/multi',
         receivedUrl: '/sms/1/inbox/reports',
-        receivedLogUrl: '/sms/1/inbox/logs'
+        receivedLogUrl: '/sms/1/inbox/logs',
+        request: {} //request options
     };
 
     //merge provided options with the default options
@@ -179,7 +180,7 @@ Transport.prototype.sendSingleSMS = function(sms, done) {
 
             function issueSendRequest(token, next) {
                 //prepare send single request details
-                var sendSingleRequestDetails = {
+                var sendSingleRequestDetails = _.merge({
                     method: 'POST',
                     url: this.baseUrl + this.sendSingleUrl,
                     json: sms,
@@ -188,7 +189,7 @@ Transport.prototype.sendSingleSMS = function(sms, done) {
                         'Content-Type': 'application/json',
                         Authorization: token
                     }
-                };
+                }, this.request);
 
                 //issue send single request
                 request(sendSingleRequestDetails, next);
@@ -222,7 +223,7 @@ Transport.prototype.sendMultiSMS = function(sms, done) {
 
             function issueSendRequest(token, next) {
                 //prepare send multi request details
-                var sendMultiRequestDetails = {
+                var sendMultiRequestDetails = _.merge({
                     method: 'POST',
                     url: this.baseUrl + this.sendMultiUrl,
                     json: sms,
@@ -231,7 +232,7 @@ Transport.prototype.sendMultiSMS = function(sms, done) {
                         'Content-Type': 'application/json',
                         Authorization: token
                     }
-                };
+                }, this.request);
 
                 //issue send single request
                 request(sendMultiRequestDetails, next);
@@ -272,7 +273,7 @@ Transport.prototype.getDeliveryReports = function(options, done) {
 
             function issueDeliveryRequest(token, next) {
                 //prepare delivery report request details
-                var deliveryReportRequestDetails = {
+                var deliveryReportRequestDetails = _.merge({
                     method: 'GET',
                     qs: options,
                     url: this.baseUrl + this.deliveryReportUrl,
@@ -280,7 +281,7 @@ Transport.prototype.getDeliveryReports = function(options, done) {
                         Accept: 'application/json',
                         Authorization: token
                     }
-                };
+                }, this.request);
 
                 //issue delivery report request
                 request(deliveryReportRequestDetails, next);
@@ -321,7 +322,7 @@ Transport.prototype.getSentSMSLogs = function(options, done) {
 
             function issueLogsRequest(token, next) {
                 //prepare logs history request details
-                var logsRequestDetails = {
+                var logsRequestDetails = _.merge({
                     method: 'GET',
                     qs: options,
                     url: this.baseUrl + this.logsUrl,
@@ -329,7 +330,7 @@ Transport.prototype.getSentSMSLogs = function(options, done) {
                         Accept: 'application/json',
                         Authorization: token
                     }
-                };
+                }, this.request);
 
                 //issue logs history request
                 request(logsRequestDetails, next);
@@ -359,14 +360,14 @@ Transport.prototype.getBalance = function(done) {
 
             function issueBalanceRequest(token, next) {
                 //prepare request details
-                var balanceRequestDetails = {
+                var balanceRequestDetails = _.merge({
                     method: 'GET',
                     url: this.baseUrl + this.balanceUrl,
                     headers: {
                         Accept: 'application/json',
                         Authorization: token
                     }
-                };
+                }, this.request);
 
                 //issue balance request
                 request(balanceRequestDetails, next);
@@ -407,7 +408,7 @@ Transport.prototype.getReceivedSMS = function(options, done) {
 
             function issueReceivedSMSRequest(token, next) {
                 //prepare received sms(s) request details
-                var receivedSMSRequestDetails = {
+                var receivedSMSRequestDetails = _.merge({
                     method: 'GET',
                     qs: options,
                     url: this.baseUrl + this.receivedUrl,
@@ -415,7 +416,7 @@ Transport.prototype.getReceivedSMS = function(options, done) {
                         Accept: 'application/json',
                         Authorization: token
                     }
-                };
+                }, this.request);
 
                 //issue received sms(s) request
                 request(receivedSMSRequestDetails, next);
@@ -455,7 +456,7 @@ Transport.prototype.getReceivedSMSLogs = function(options, done) {
 
             function issueReceivedSMSLogRequest(token, next) {
                 //prepare received sms(s) log request details
-                var receivedSMSLogRequestDetails = {
+                var receivedSMSLogRequestDetails = _.merge({
                     method: 'GET',
                     qs: options,
                     url: this.baseUrl + this.receivedLogUrl,
@@ -463,7 +464,7 @@ Transport.prototype.getReceivedSMSLogs = function(options, done) {
                         Accept: 'application/json',
                         Authorization: token
                     }
-                };
+                }, this.request);
 
                 //issue received sms(s) request
                 request(receivedSMSLogRequestDetails, next);

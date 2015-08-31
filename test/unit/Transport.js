@@ -71,4 +71,19 @@ describe('Transport', function() {
         done();
     });
 
+
+    it('should be able to merge provided `request` options', function(done) {
+        var requestOptions = {
+            timeout: 20000
+        };
+
+        var transport = new Transport({
+            request: requestOptions
+        });
+
+        expect(transport.request).to.eql(requestOptions);
+
+        done();
+    });
+
 });

@@ -7,6 +7,7 @@
 
 //dependencies
 var expect = require('chai').expect;
+var _ = require('lodash');
 var path = require('path');
 var Transport = require(path.join(__dirname, '..', '..'));
 var intergration = require(path.join(__dirname, 'intergration.json'));
@@ -23,57 +24,138 @@ describe('Integration', function() {
                 currency: 'EUR'
             };
 
-            expect(balance).to.eql(expectedBalance);
+            expect(balance.balance).to.be.at.most(expectedBalance.balance);
+            expect(balance.currency).to.be.equal(expectedBalance.currency);
 
             done(error, balance);
         });
     });
 
-    it('should to send send single sms to single destination');
-    it('should to send send single sms to multiple destinations');
-    it('should send multiple sms(s) to multiple destinations');
+    it('should to send send single sms to single destination', function(done) {
+        var to = intergration.singleSingleSMS.single.to;
+        var from = intergration.from;
+        var smsCount = 1;
+
+        transport.sendSingleSMS({
+            to: to,
+            from: from,
+            text: 'TEST'
+        }, function(error, sentResult) {
+
+            expect(error).to.not.exist;
+            expect(sentResult).to.exist;
+            expect(sentResult.messages).to.exist;
+
+            var sentSMS = _.first(sentResult.messages);
+
+            expect(sentSMS).to.exist;
+            expect(sentSMS.to).to.be.equal(to);
+            expect(sentSMS.smsCount).to.be.equal(smsCount);
+            expect(sentSMS.messageId).to.exist;
+            expect(sentSMS.status).to.exist;
+
+            done(error, sentResult);
+        });
+
+    });
+
+    it('should to send send single sms to multiple destinations', function(done) {
+        var to = intergration.singleSingleSMS.multi.to;
+        var from = intergration.from;
+        var smsCount = 1;
+
+        transport.sendSingleSMS({
+            to: to,
+            from: from,
+            text: 'TEST'
+        }, function(error, sentResult) {
+
+            expect(error).to.not.exist;
+            expect(sentResult).to.exist;
+            expect(sentResult.messages).to.exist;
+
+            var sentSMS = _.first(sentResult.messages);
+
+            expect(sentSMS).to.exist;
+            expect(sentSMS.to).to.be.equal(_.first(to));
+            expect(sentSMS.smsCount).to.be.equal(smsCount);
+            expect(sentSMS.messageId).to.exist;
+            expect(sentSMS.status).to.exist;
+
+            done(error, sentResult);
+        });
+
+    });
+
+    it('should send multiple sms(s) to multiple destinations', function(done) {
+        var to = intergration.sendMultiSMS.to;
+        var from = intergration.from;
+        var smsCount = 1;
+
+        transport.sendMultiSMS({
+                messages: [{
+                    to: to,
+                    from: from,
+                    text: 'TEST'
+                }]
+            },
+            function(error, sentResult) {
+
+                expect(error).to.not.exist;
+                expect(sentResult).to.exist;
+                expect(sentResult.bulkId).to.exist;
+                expect(sentResult.messages).to.exist;
+
+                var sentSMS = _.first(sentResult.messages);
+
+                expect(sentSMS).to.exist;
+                expect(sentSMS.to).to.be.equal(_.first(to));
+                expect(sentSMS.smsCount).to.be.equal(smsCount);
+                expect(sentSMS.messageId).to.exist;
+                expect(sentSMS.status).to.exist;
+
+                done(error, sentResult);
+            });
+
+    });
 
     it('should be able to query for sms(s) delivery reports', function(done) {
-        var expectedDeliveryReports = {
-            results: []
-        };
 
         transport.getDeliveryReports(function(error, deliveryReports) {
 
             expect(error).to.not.exist;
             expect(deliveryReports).to.exist;
-            expect(deliveryReports).to.eql(expectedDeliveryReports);
+            expect(deliveryReports.results.length).to.be.at.least(0);
+
+            //TODO more application specific assertions
 
             done(error, deliveryReports);
         });
     });
 
     it('should be able to query sms(s) sent logs', function(done) {
-        var exptectedSentSMSLogs = {
-            results: []
-        };
 
         transport.getSentSMSLogs(function(error, sentSMSLogs) {
 
             expect(error).to.not.exist;
             expect(sentSMSLogs).to.exist;
-            expect(sentSMSLogs).to.eql(exptectedSentSMSLogs);
+            expect(sentSMSLogs.results.length).to.be.at.least(0);
+
+            //TODO more application specific assertions
 
             done(error, sentSMSLogs);
         });
     });
 
     it('should be able to query for received sms(s)', function(done) {
-        //place your expected received sms
-        var expectedReceivedSMS = {
-            results: []
-        };
 
         transport.getReceivedSMS(function(error, receivedSMS) {
 
             expect(error).to.not.exist;
             expect(receivedSMS).to.exist;
-            expect(receivedSMS).to.eql(expectedReceivedSMS);
+            expect(receivedSMS.results.length).to.be.at.least(0);
+
+            //TODO more application specific assertions
 
             done(error, receivedSMS);
         });
@@ -81,16 +163,14 @@ describe('Integration', function() {
 
 
     it('should be able to query for received sms(s) logs', function(done) {
-        //place your expected logs here
-        var expectedReceivedSMSLogs = {
-            results: []
-        };
 
         transport.getReceivedSMSLogs(function(error, receivedSMSLogs) {
 
             expect(error).to.not.exist;
             expect(receivedSMSLogs).to.exist;
-            expect(receivedSMSLogs).to.eql(expectedReceivedSMSLogs);
+            expect(receivedSMSLogs.results.length).to.be.at.least(0);
+
+            //TODO more application specific assertions
 
             done(error, receivedSMSLogs);
         });
