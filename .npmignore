@@ -16,4 +16,5 @@ test
 .jshintrc
 .editorconfig
 .travis.yml
+docs
 Gruntfile.js
