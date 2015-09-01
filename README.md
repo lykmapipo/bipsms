@@ -112,7 +112,7 @@ transport.sendMultiSMS(sms, function(error, response) {
 
 
 ### Delivery Reports
-To obtain SMS(s) delivery reports, instantiate `bipsms` with your account details then invoke **`getDeliveryReporst(options,callback(error,logs))`** where
+To obtain SMS(s) delivery reports, instantiate `bipsms` with your account details then invoke **`getDeliveryReports(options,callback(error,logs))`** where
 - `options` - are valid [request parameters](http://dev.infobip.com/docs/delivery-reports) to be supplied on the request 
 - `error` - is any error encountered during requesting SMS(s) sent delivery report
 - `deliveryReport` - is SMS(s) [sent delivery reports](http://dev.infobip.com/docs/delivery-reports#section-smsreportresponse)
@@ -124,7 +124,7 @@ To obtain SMS(s) delivery reports, instantiate `bipsms` with your account detail
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
-transport.getDeliveryReporst(function(error, deliveryReport) {
+transport.getDeliveryReports(function(error, deliveryReport) {
 
             expect(error).to.be.null;
             expect(deliveryReport).to.exist;
