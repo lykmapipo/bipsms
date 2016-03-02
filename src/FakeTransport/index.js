@@ -4,7 +4,7 @@
 var path = require('path');
 var _ = require('lodash');
 var randomNumber = require('random-number');
-var fetchDeliveryReports = require(path.join(__dirname, 'fixtures', 'delivery_report'));
+var fetchLog = require(path.join(__dirname, 'fixtures', 'log'));
 var fetchReceivedSMS = require(path.join(__dirname, 'fixtures', 'received_sms'));
 var sendSMS = require(path.join(__dirname, 'fixtures', 'send_sms'));
 
@@ -46,21 +46,25 @@ module.exports = exports = function FakeTransport() {
 
     //simulate fetch delivery reports
     this.getDeliveryReports = function(options, done) {
+
         //normalize arguments
         if (_.isFunction(options)) {
             done = options;
             options = {};
         }
-        fetchDeliveryReports(options, done);
+
+        fetchLog(options, done);
     };
 
     //simulate fetch received SMS
     this.getReceivedSMS = function(options, done) {
+
         //normalize arguments
         if (_.isFunction(options)) {
             done = options;
             options = {};
         }
+
         fetchReceivedSMS(options, done);
     };
 
@@ -75,5 +79,17 @@ module.exports = exports = function FakeTransport() {
     //simulate send single SMS
     this.sendSingleSMS = function(sms, done) {
         sendSMS(sms, done);
+    };
+
+    //simulate fetch sent logs
+    this.getSentSMSLogs = function(options, done) {
+
+        //normalize arguments
+        if (_.isFunction(options)) {
+            done = options;
+            options = {};
+        }
+
+        fetchLog(options, done);
     };
 };

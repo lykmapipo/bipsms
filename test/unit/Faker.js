@@ -240,8 +240,37 @@ describe.only('Fake Transport', function() {
         });
     });
 
-    it('should be able to query send SMS Log', function(done) {
-        done();
+    describe('Sent SMS Log', function() {
+
+        it('should return all current SMS sent logs', function(done) {
+
+            transport.getSentSMSLogs(function(error, logs) {
+
+                expect(error).to.be.null;
+                expect(logs).to.exist;
+                expect(logs.results).to.exist;
+                expect(logs.results.length).to.be.equal(50);
+
+                done(error, logs);
+            });
+
+        });
+
+        it('should return current SMS sent logs based on options provided', function(done) {
+
+            transport.getSentSMSLogs({
+                bulkId: '82d1d36e-e4fb-4194-8b93-caeb053bd327'
+            }, function(error, logs) {
+
+                expect(error).to.be.null;
+                expect(logs).to.exist;
+                expect(logs.results).to.exist;
+                expect(logs.results.length).to.be.above(0);
+
+                done();
+            });
+
+        });
     });
 
 });

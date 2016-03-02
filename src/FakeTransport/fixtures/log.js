@@ -25,6 +25,11 @@ module.exports = exports = function(options, done) {
             max: 99999999999,
             integer: true
         })),
+        from: String(randomNumber({
+            min: 11111111111,
+            max: 99999999999,
+            integer: true
+        })),
         sentAt: moment(new Date()).add(sentDays, 'days'),
         doneAt: moment(new Date()).add(doneDays, 'days'),
         smsCount: randomNumber({

@@ -1,54 +1,54 @@
 {
-  "name": "bipsms",
-  "version": "0.1.0",
-  "description": "Send SMS(s), query their delivery reports and sending history in nodejs using infobip JSON API",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "grunt test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/lykmapipo/bipsms"
-  },
-  "keywords": [
-    "infobip",
-    "sms",
-    "transport",
-    "send",
-    "inbox",
-    "receive",
-    "received logs",
-    "balance",
-    "report",
-    "delivery",
-    "logs",
-    "send logs"
-  ],
-  "author": "lykmapipo <lallyelias87@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/lykmapipo/bipsms/issues"
-  },
-  "dependencies": {
-    "async": "^1.5.2",
-    "lodash": "^4.6.0",
-    "moment": "^2.11.2",
-    "random-number": "0.0.7",
-    "request": "^2.69.0",
-    "uuid": "^2.0.1"
-  },
-  "devDependencies": {
-    "chai": "~1.10.0",
-    "faker": "^3.0.1",
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "^0.11.2",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-mocha-test": "^0.12.7",
-    "jshint-stylish": "^2.0.1",
-    "load-grunt-tasks": "^3.2.0",
-    "mocha": "^2.2.5",
-    "nock": "^2.10.0",
-    "querystring": "^0.2.0",
-    "url-querystring": "^2.1.1"
-  }
+    "name": "bipsms",
+    "version": "0.1.0",
+    "description": "Send SMS(s), query their delivery reports and sending history in nodejs using infobip JSON API",
+    "main": "src/index.js",
+    "scripts": {
+        "test": "grunt test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lykmapipo/bipsms"
+    },
+    "keywords": [
+        "infobip",
+        "sms",
+        "transport",
+        "send",
+        "inbox",
+        "receive",
+        "received logs",
+        "balance",
+        "report",
+        "delivery",
+        "logs",
+        "send logs"
+    ],
+    "author": "lykmapipo <lallyelias87@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/lykmapipo/bipsms/issues"
+    },
+    "dependencies": {
+        "async": "^1.5.2",
+        "lodash": "^4.6.0",
+        "moment": "^2.11.2",
+        "random-number": "0.0.7",
+        "request": "^2.69.0",
+        "uuid": "^2.0.1"
+    },
+    "devDependencies": {
+        "chai": "~1.10.0",
+        "faker": "^3.0.1",
+        "grunt": "~0.4.1",
+        "grunt-contrib-jshint": "^0.11.2",
+        "grunt-contrib-watch": "~0.5.3",
+        "grunt-mocha-test": "^0.12.7",
+        "jshint-stylish": "^2.0.1",
+        "load-grunt-tasks": "^3.2.0",
+        "mocha": "^2.2.5",
+        "nock": "^2.10.0",
+        "querystring": "^0.2.0",
+        "url-querystring": "^2.1.1"
+    }
 }
