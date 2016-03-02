@@ -1,0 +1,29 @@
+{
+    "bulkId": "BULK-ID-123-xyz",
+    "messages": [{
+        "from": "InfoSMS",
+        "destinations": [{
+            "to": "41793026727",
+            "messageId": "MESSAGE-ID-123-xyz"
+        }, {
+            "to": "41793026731"
+        }],
+        "text": "Artık Ulusal Dil Tanımlayıcısı",
+        "intermediateReport": true,
+        "notifyUrl": "http://www.example.com/sms/advanced",
+        "notifyContentType": "application/json",
+        "callbackData": "DLR callback data",
+        "validityPeriod": 720
+    }, {
+        "from": "41793026700",
+        "destinations": [{
+            "to": "41793026785"
+        }],
+        "text": "A long time ago, in a galaxy far, far away...",
+        "sendAt": "2015-07-07T17:00:00.000+01:00"
+    }],
+    "tracking": {
+        "track": "SMS",
+        "type": "MY_CAMPAIGN"
+    }
+}

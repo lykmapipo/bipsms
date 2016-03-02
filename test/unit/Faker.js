@@ -6,7 +6,7 @@ var path = require('path');
 var Transport = require(path.join(__dirname, '..', '..'));
 var transport;
 
-describe.only('Fake Transport', function() {
+describe('Fake Transport', function() {
 
     beforeEach(function() {
         transport = new Transport({

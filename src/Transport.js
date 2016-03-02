@@ -28,6 +28,7 @@ function Transport(options) {
         deliveryReportUrl: '/sms/1/reports',
         sendSingleUrl: '/sms/1/text/single',
         sendMultiUrl: '/sms/1/text/multi',
+        sendFeaturedUrl: '/sms/1/text/advanced',
         receivedUrl: '/sms/1/inbox/reports',
         receivedLogUrl: '/sms/1/inbox/logs',
         request: {} //request options
@@ -234,6 +235,49 @@ Transport.prototype.sendMultiSMS = function(sms, done) {
                 var sendMultiRequestDetails = _.merge({
                     method: 'POST',
                     url: this.baseUrl + this.sendMultiUrl,
+                    json: sms,
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        Authorization: token
+                    }
+                }, this.request);
+
+                //issue send single request
+                request(sendMultiRequestDetails, next);
+
+            }.bind(this)
+        ],
+        function finalize(error, response, data) {
+            this._respond(error, response, data, done);
+        }.bind(this));
+};
+
+
+/**
+ * @function
+ * @description send fully featured textual sms(s) to single or multiple destination
+ * @param  {Object}   sms  valid fully textual SMS to send
+ * @param  {Function} done a callback to invoke on success or error
+ * @return {Object}        sent textual SMS response
+ * @public
+ */
+Transport.prototype.sendFeaturedSMS = function(sms, done) {
+    //TODO validate message
+    //TODO normalize from sms to e164
+
+    async.waterfall(
+        [
+
+            function buildAthorizationToken(next) {
+                this.getAuthorizationToken(next);
+            }.bind(this),
+
+            function issueSendRequest(token, next) {
+                //prepare send multi request details
+                var sendMultiRequestDetails = _.merge({
+                    method: 'POST',
+                    url: this.baseUrl + this.sendFeaturedUrl,
                     json: sms,
                     headers: {
                         Accept: 'application/json',

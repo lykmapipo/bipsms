@@ -110,6 +110,45 @@ transport.sendMultiSMS(sms, function(error, response) {
 });
 ```
 
+### Send Fully Featured SMS
+To send fully featured textual SMS, instantiate `bipsms` with your account details then invoke **`sendFeaturedSMS(sms,callback(error,response))`** where
+- `sms` - is a fully featured textual [SMS(s)](https://dev.infobip.com/v1/docs/fully-featured-textual-message) to send
+- `error` - is any error encountered when sending SMS(s)
+- `response` - is a response of [sent SMS(s)](http://dev.infobip.com/docs/send-multiple-sms#section-smsresponse)
+
+Example
+```js
+var Transport = require('bipsms');
+var transport = new Transport({ username: '<username>', password: '<password>' });
+
+//prepare featured sms(s) to send
+var sms = {
+    "bulkId": "BULK-ID-123-xyz",
+    "messages": [{
+        "from": "InfoSMS",
+        "destinations": [{
+            "to": "41793026727",
+            "messageId": "MESSAGE-ID-123-xyz"
+        }, {
+            "to": "41793026731"
+        }],
+        "text": "Mama always said life was like a box of chocolates. You never know what you're gonna get.",
+        "notifyUrl": "http://www.example.com/sms/advanced",
+        "notifyContentType": "application/json",
+        "callbackData": "There's no place like home."
+    }]
+};
+
+//send featured sms(s)
+transport.sendFeaturedSMS(sms, function(error, response) {
+
+    expect(error).to.be.null;
+    expect(response).to.exist;
+    expect(response.messages).to.exist;
+
+});
+```
+
 
 ### Delivery Reports
 To obtain SMS(s) delivery reports, instantiate `bipsms` with your account details then invoke **`getDeliveryReports(options,callback(error,logs))`** where

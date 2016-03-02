@@ -1,0 +1,37 @@
+{
+    "bulkId": "BULK-ID-123-xyz",
+    "messages": [{
+        "to": "41793026727",
+        "status": {
+            "groupId": 0,
+            "groupName": "ACCEPTED",
+            "id": 0,
+            "name": "MESSAGE_ACCEPTED",
+            "description": "Message accepted"
+        },
+        "smsCount": 1,
+        "messageId": "MESSAGE-ID-123-xyz"
+    }, {
+        "to": "41793026731",
+        "status": {
+            "groupId": 0,
+            "groupName": "ACCEPTED",
+            "id": 0,
+            "name": "MESSAGE_ACCEPTED",
+            "description": "Message accepted"
+        },
+        "smsCount": 1,
+        "messageId": "9304a5a3ab19-1ca1-be74-76ad87651ed25f35"
+    }, {
+        "to": "41793026785",
+        "status": {
+            "groupId": 0,
+            "groupName": "ACCEPTED",
+            "id": 0,
+            "name": "MESSAGE_ACCEPTED",
+            "description": "Message accepted"
+        },
+        "smsCount": 2,
+        "messageId": "5f35f87a2f19-a141-43a4-91cd81b85f8c689"
+    }]
+}
