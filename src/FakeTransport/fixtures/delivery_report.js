@@ -20,11 +20,11 @@ module.exports = exports = function(options, done) {
     var template = {
         bulkId: uuid.v4(),
         messageId: uuid.v4(),
-        to: randomNumber({
+        to: String(randomNumber({
             min: 11111111111,
             max: 99999999999,
             integer: true
-        }),
+        })),
         sentAt: moment(new Date()).add(sentDays, 'days'),
         doneAt: moment(new Date()).add(doneDays, 'days'),
         smsCount: randomNumber({

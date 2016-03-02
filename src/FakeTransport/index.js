@@ -5,6 +5,7 @@ var path = require('path');
 var _ = require('lodash');
 var randomNumber = require('random-number');
 var fetchDeliveryReports = require(path.join(__dirname, 'fixtures', 'delivery_report'));
+var fetchReceivedSMS = require(path.join(__dirname, 'fixtures', 'received_sms'));
 
 /**
  * @description Fake Transport
@@ -44,7 +45,21 @@ module.exports = exports = function FakeTransport() {
 
     //simulate fetch delivery reports
     this.getDeliveryReports = function(options, done) {
+        //normalize arguments
+        if (_.isFunction(options)) {
+            done = options;
+            options = {};
+        }
         fetchDeliveryReports(options, done);
+    };
+
+    this.getReceivedSMS = function(options, done) {
+        //normalize arguments
+        if (_.isFunction(options)) {
+            done = options;
+            options = {};
+        }
+        fetchReceivedSMS(options, done);
     };
 
 };

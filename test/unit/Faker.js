@@ -65,7 +65,8 @@ describe.only('Fake Transport', function() {
 
         it('should return current SMS sent delivery report(s) based on bulkId provided', function(done) {
             var options = {
-                bulkId: '80664c0c-e1ca-414d-806a-5caf146463df'
+                bulkId: '80664c0c-e1ca-414d-806a-5caf146463df',
+                limit: 5
             };
 
             transport.getDeliveryReports(options, function(error, deliveryReport) {
@@ -73,7 +74,7 @@ describe.only('Fake Transport', function() {
                 expect(error).to.be.null;
                 expect(deliveryReport).to.exist;
                 expect(deliveryReport.results).to.exist;
-                expect(deliveryReport.results.length).to.be.equal(50);
+                expect(deliveryReport.results.length).to.be.equal(5);
 
                 //assert bulkId
                 expect(deliveryReport.results[0].bulkId)
@@ -85,8 +86,37 @@ describe.only('Fake Transport', function() {
         });
     });
 
-    it('should be able to get received SMS', function(done) {
-        done();
+    describe('Received SMS', function() {
+
+        it('should return all received SMS(s) so far', function(done) {
+            //request account received SMS(s)
+            transport.getReceivedSMS(function(error, receivedSMS) {
+
+                expect(error).to.be.null;
+                expect(receivedSMS).to.exist;
+                expect(receivedSMS.results).to.exist;
+                expect(receivedSMS.results.length).to.be.equal(1);
+
+                done();
+            });
+
+        });
+
+        it('should return received SMS(s) based on options provided', function(done) {
+            //request account (inbox) received sms
+            transport.getReceivedSMS({
+                limit: 10
+            }, function(error, receivedSMS) {
+
+                expect(error).to.be.null;
+                expect(receivedSMS).to.exist;
+                expect(receivedSMS.results).to.exist;
+                expect(receivedSMS.results.length).to.be.equal(10);
+
+                done();
+            });
+
+        });
     });
 
     it('should be able to query received SMS Log', function(done) {
