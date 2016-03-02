@@ -1,9 +1,10 @@
 'use strict';
 
 //dependencies
+var path = require('path');
 var _ = require('lodash');
 var randomNumber = require('random-number');
-
+var fetchDeliveryReports = require(path.join(__dirname, 'fixtures', 'delivery_report'));
 
 /**
  * @description Fake Transport
@@ -19,6 +20,7 @@ module.exports = exports = function FakeTransport() {
     //prepare faker options
     var fakeOptions = _.merge({}, {
         currency: 'USD',
+        pricePerMessage: 0.01,
         balance: {
             min: 100,
             max: 2000
@@ -38,6 +40,11 @@ module.exports = exports = function FakeTransport() {
         };
 
         done(null, balance);
+    };
+
+    //simulate fetch delivery reports
+    this.getDeliveryReports = function(options, done) {
+        fetchDeliveryReports(options, done);
     };
 
 };
