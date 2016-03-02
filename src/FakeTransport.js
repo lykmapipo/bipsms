@@ -1,15 +1,14 @@
 'use strict';
 
 //dependencies
-var _ = require('lodash');
 
 /**
  * @description Fake Transport
  * @type {Object}
  */
-module.exports = exports = function FakeTransport(options) {
+module.exports = exports = function FakeTransport() {
     //this refer to the Transport instance context
 
-    //clone options
-    options = _.merge({}, options || {});
+    //set isFake to true to signal fake transport
+    this.isFake = true;
 };

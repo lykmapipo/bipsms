@@ -1,6 +1,6 @@
 'use strict';
 
-// var expect = require('chai').expect;
+var expect = require('chai').expect;
 // var faker = require('faker');
 var path = require('path');
 var Transport = require(path.join(__dirname, '..', '..'));
@@ -9,7 +9,14 @@ var transport;
 describe.only('Fake Transport', function() {
 
     beforeEach(function() {
-        transport = new Transport();
+        transport = new Transport({
+            fake: true
+        });
+    });
+
+    it('should be able to flag itself as fake transport', function(done) {
+        expect(transport.isFake).to.be.true;
+        done();
     });
 
     it('should be able to get balance', function(done) {

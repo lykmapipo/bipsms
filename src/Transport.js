@@ -1,10 +1,11 @@
 'use strict';
 
 //dependencies
+var path = require('path');
 var _ = require('lodash');
 var request = require('request');
 var async = require('async');
-
+var FakeTransport = require(path.join(__dirname, 'FakeTransport'));
 
 /**
  * @constructor
@@ -33,11 +34,15 @@ function Transport(options) {
     };
 
     //merge provided options with the default options
-    this.options = _.merge(this.options, options);
+    this.options = _.merge({}, this.options, options);
 
     //initialize transport
     this._initialize();
 
+    //setup as fake transport if so
+    if (this.options.fake) {
+        FakeTransport.call(this);
+    }
 }
 
 
@@ -47,6 +52,8 @@ function Transport(options) {
  * @private
  */
 Transport.prototype._initialize = function() {
+    //its not fake
+    this.isFake = false;
 
     //extend transport with magic setter and getter for options
     _.forEach(_.keys(this.options), function(option) {
@@ -61,6 +68,7 @@ Transport.prototype._initialize = function() {
     }.bind(this));
 
 };
+
 
 
 /**
