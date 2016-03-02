@@ -7,6 +7,8 @@ var randomNumber = require('random-number');
 
 
 module.exports = exports = function(sms, done) {
+    //normalize arguments
+    var isFeatured = sms.bulkId ? true : false;
 
     //received sms template
     var template = {
@@ -29,64 +31,85 @@ module.exports = exports = function(sms, done) {
     //process messages and build response
     var response;
 
-    //prepare single sms to single destination response
-    if (_.isPlainObject(sms) && _.isString(sms.to)) {
+    //handle non-featured send
+    if (!isFeatured) {
+        //prepare single sms to single destination response
+        if (_.isPlainObject(sms) && _.isString(sms.to)) {
 
-        var message = _.merge({}, template, {
-            to: sms.to
-        });
-
-        response = {
-            messages: [message]
-        };
-
-    }
-
-    //prepare single sms to multiple destination response
-    else if (_.isPlainObject(sms) && _.isArray(sms.to)) {
-
-        var messages = _.map(sms.to, function(to) {
-            return _.merge({}, template, {
-                to: to
+            var message = _.merge({}, template, {
+                to: sms.to
             });
-        });
 
-        response = {
-            bulkId: uuid.v4(),
-            messages: messages
-        };
+            response = {
+                messages: [message]
+            };
+
+        }
+
+        //prepare single sms to multiple destination response
+        else if (_.isPlainObject(sms) && _.isArray(sms.to)) {
+
+            var messages = _.map(sms.to, function(to) {
+                return _.merge({}, template, {
+                    to: to
+                });
+            });
+
+            response = {
+                bulkId: uuid.v4(),
+                messages: messages
+            };
+        }
+
+        //prepare multi sms response
+        else {
+            var _messages = [];
+
+            _.forEach(sms, function(_sms) {
+                //process for single destination
+                if (_.isString(_sms.to)) {
+
+                    _messages = _messages.concat([
+                        _.merge({}, template, {
+                            to: _sms.to
+                        })
+                    ]);
+                }
+
+                //process for multi destination
+                else {
+
+                    _messages = _messages.concat(_.map(_sms.to, function(to) {
+                        return _.merge({}, template, {
+                            to: to
+                        });
+                    }));
+
+                }
+            });
+
+            response = {
+                bulkId: uuid.v4(),
+                messages: _messages
+            };
+        }
     }
 
-    //prepare multi sms response
+    //respond to featured send
     else {
-        var _messages = [];
+        var $messages = [];
 
-        _.forEach(sms, function(_sms) {
-            //process for single destination
-            if (_.isString(_sms.to)) {
+        _.forEach(sms.messages, function(_message) {
 
-                _messages = _messages.concat([
-                    _.merge({}, template, {
-                        to: _sms.to
-                    })
-                ]);
-            }
+            $messages = $messages.concat(_.map(_message.destinations, function(destination) {
+                return _.merge({}, template, destination);
+            }));
 
-            //process for multi destination
-            else {
-
-                _messages = _messages.concat(_.map(_sms.to, function(to) {
-                    return _.merge({}, template, {
-                        to: to
-                    });
-                }));
-
-            }
         });
 
         response = {
-            bulkId: uuid.v4(),
-            messages: _messages
+            bulkId: sms.bulkId || uuid.v4(),
+            messages: $messages
         };
     }
 

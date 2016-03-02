@@ -49,7 +49,6 @@ describe('Send Featured SMS', function() {
                 return [200, featured];
             });
 
-        //send single sms to multiple destination
         transport.sendFeaturedSMS(sms, function(error, response) {
 
             expect(error).to.be.null;

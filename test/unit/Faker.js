@@ -183,7 +183,7 @@ describe('Fake Transport', function() {
 
                 expect(response.bulkId).to.exist;
 
-                done();
+                done(error, response);
             });
 
         });
@@ -267,7 +267,45 @@ describe('Fake Transport', function() {
                 expect(logs.results).to.exist;
                 expect(logs.results.length).to.be.above(0);
 
-                done();
+                done(error, logs);
+            });
+
+        });
+    });
+
+
+    describe('Send Featured Textual SMS', function() {
+
+        it('should send a featured SMS', function(done) {
+
+            var sms = {
+                bulkId: 'BULK-ID-123-xyz',
+                messages: [{
+                    from: 'InfoSMS',
+                    destinations: [{
+                        to: '41793026727',
+                        messageId: 'MESSAGE-ID-123-xyz'
+                    }, {
+                        to: '41793026731'
+                    }],
+                    text: 'Mama always said life was like a box of chocolates.',
+                    notifyUrl: 'http://www.example.com/sms/advanced',
+                    notifyContentType: 'application/json',
+                    callbackData: 'There\'s no place like home.'
+                }]
+            };
+
+            transport.sendFeaturedSMS(sms, function(error, response) {
+
+                expect(error).to.be.null;
+                expect(response).to.exist;
+                expect(response.messages).to.exist;
+                expect(response.messages.length).to.be.equal(2);
+
+                //assert
+                expect(response.bulkId).to.equal(sms.bulkId);
+
+                done(error, response);
             });
 
         });

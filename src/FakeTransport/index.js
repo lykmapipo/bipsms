@@ -81,6 +81,11 @@ module.exports = exports = function FakeTransport() {
         sendSMS(sms, done);
     };
 
+    //simulate send featured textual sms
+    this.sendFeaturedSMS = function(sms, done) {
+        sendSMS(sms, done);
+    };
+
     //simulate fetch sent logs
     this.getSentSMSLogs = function(options, done) {
 
