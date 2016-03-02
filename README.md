@@ -135,8 +135,7 @@ var sms = {
         text: 'Mama always said life was like a box of chocolates.',
         notifyUrl: 'http://www.example.com/sms/advanced',
         notifyContentType: 'application/json',
-        callbackData: 'There\'s no place like home.
-        '
+        callbackData: 'There\'s no place like home.'
     }]
 };
 
