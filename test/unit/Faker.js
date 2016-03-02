@@ -10,7 +10,13 @@ describe.only('Fake Transport', function() {
 
     beforeEach(function() {
         transport = new Transport({
-            fake: true
+            fake: {
+                currency: 'USD',
+                balance: {
+                    min: 100,
+                    max: 200
+                }
+            }
         });
     });
 
@@ -20,7 +26,15 @@ describe.only('Fake Transport', function() {
     });
 
     it('should be able to get balance', function(done) {
-        done();
+        transport.getBalance(function(error, balance) {
+
+            expect(error).to.be.null;
+            expect(balance).to.exist;
+            expect(balance.balance).to.exist;
+            expect(balance.currency).to.equal('USD');
+
+            done(error, balance);
+        });
     });
 
     it('should be able to get SMS delivery reports', function(done) {
