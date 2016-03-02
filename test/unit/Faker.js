@@ -26,6 +26,7 @@ describe.only('Fake Transport', function() {
     });
 
     it('should be able to get balance', function(done) {
+        
         transport.getBalance(function(error, balance) {
 
             expect(error).to.be.null;
@@ -35,6 +36,7 @@ describe.only('Fake Transport', function() {
 
             done(error, balance);
         });
+
     });
 
     it('should be able to get SMS delivery reports', function(done) {
