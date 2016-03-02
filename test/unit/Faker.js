@@ -154,8 +154,39 @@ describe.only('Fake Transport', function() {
         });
     });
 
-    it('should be able to send multipe SMS', function(done) {
-        done();
+    describe('Send Multiple Textual SMS', function() {
+
+        it('should be able to send multiple sms', function(done) {
+
+            var sms = {
+                messages: [{
+                    from: 'InfoSMS',
+                    to: [
+                        '41793026727',
+                        '41793026731'
+                    ],
+                    text: 'May the Force be with you!'
+                }, {
+                    from: '41793026700',
+                    to: '41793026785',
+                    text: 'A long time ago, in a galaxy far, far away.'
+                }]
+            };
+
+            //send SMS(s)
+            transport.sendMultiSMS(sms, function(error, response) {
+
+                expect(error).to.be.null;
+                expect(response).to.exist;
+                expect(response.messages).to.exist;
+                expect(response.messages.length).to.be.equal(3);
+
+                expect(response.bulkId).to.exist;
+
+                done();
+            });
+
+        });
     });
 
     it('should be able to send single SMS', function(done) {

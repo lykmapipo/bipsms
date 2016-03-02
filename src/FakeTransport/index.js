@@ -6,6 +6,7 @@ var _ = require('lodash');
 var randomNumber = require('random-number');
 var fetchDeliveryReports = require(path.join(__dirname, 'fixtures', 'delivery_report'));
 var fetchReceivedSMS = require(path.join(__dirname, 'fixtures', 'received_sms'));
+var sendSMS = require(path.join(__dirname, 'fixtures', 'send_sms'));
 
 /**
  * @description Fake Transport
@@ -66,4 +67,8 @@ module.exports = exports = function FakeTransport() {
     //simulate fetch received SMS log
     this.getReceivedSMSLogs = this.getReceivedSMS;
 
+    //simulate send multi SMS
+    this.sendMultiSMS = function(sms, done) {
+        sendSMS(sms.messages, done);
+    };
 };
