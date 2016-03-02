@@ -53,6 +53,7 @@ module.exports = exports = function FakeTransport() {
         fetchDeliveryReports(options, done);
     };
 
+    //simulate fetch received SMS
     this.getReceivedSMS = function(options, done) {
         //normalize arguments
         if (_.isFunction(options)) {
@@ -61,5 +62,8 @@ module.exports = exports = function FakeTransport() {
         }
         fetchReceivedSMS(options, done);
     };
+
+    //simulate fetch received SMS log
+    this.getReceivedSMSLogs = this.getReceivedSMS;
 
 };

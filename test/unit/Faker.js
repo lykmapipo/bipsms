@@ -95,9 +95,9 @@ describe.only('Fake Transport', function() {
                 expect(error).to.be.null;
                 expect(receivedSMS).to.exist;
                 expect(receivedSMS.results).to.exist;
-                expect(receivedSMS.results.length).to.be.equal(1);
+                expect(receivedSMS.results.length).to.be.equal(50);
 
-                done();
+                done(error, receivedSMS);
             });
 
         });
@@ -113,14 +113,45 @@ describe.only('Fake Transport', function() {
                 expect(receivedSMS.results).to.exist;
                 expect(receivedSMS.results.length).to.be.equal(10);
 
-                done();
+                done(error, receivedSMS);
             });
 
         });
     });
 
-    it('should be able to query received SMS Log', function(done) {
-        done();
+    describe('Received SMS Log', function() {
+
+        it('should return all received SMS(s) log', function(done) {
+
+            //request account received SMS(s) log
+            transport.getReceivedSMSLogs(function(error, receivedSMSLog) {
+
+                expect(error).to.be.null;
+                expect(receivedSMSLog).to.exist;
+                expect(receivedSMSLog.results).to.exist;
+                expect(receivedSMSLog.results.length).to.be.equal(50);
+
+                done(error, receivedSMSLog);
+            });
+
+        });
+
+        it('should return received SMS(s) log based on options provided', function(done) {
+
+            //request account (inbox) received sms log
+            transport.getReceivedSMSLogs({
+                limit: 2
+            }, function(error, receivedSMSLog) {
+
+                expect(error).to.be.null;
+                expect(receivedSMSLog).to.exist;
+                expect(receivedSMSLog.results).to.exist;
+                expect(receivedSMSLog.results.length).to.be.equal(2);
+
+                done(error, receivedSMSLog);
+            });
+
+        });
     });
 
     it('should be able to send multipe SMS', function(done) {

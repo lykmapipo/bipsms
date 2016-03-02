@@ -33,7 +33,7 @@ module.exports = exports = function(options, done) {
     };
 
     //prepare multi message delivery report
-    var limit = options.limit || 1;
+    var limit = options.limit || 50;
 
     var receivedSMS = _.range(0, limit).map(function() {
         return _.merge({}, template, _.omit(options, 'limit'));
