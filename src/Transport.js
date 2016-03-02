@@ -137,7 +137,7 @@ Transport.prototype._respond = function(error, response, data, done) {
 
     //process response error
     else if (response.statusCode !== 200) {
-        
+
         //process response data to error
         var serviceException = _.get(data, 'requestError.serviceException', {});
         var errorName = serviceException.messageId || 'UNAUTHORIZED';
