@@ -67,5 +67,20 @@ module.exports = exports = function(options, done) {
         };
     }
 
+    //prepare multi message delivery report
+    else {
+        var limit = options.limit || 50;
+
+        var reports = _.range(0, limit).map(function() {
+            return _.merge({}, template, {
+                bulkId: options.bulkId
+            });
+        });
+
+        response = {
+            results: reports
+        };
+    }
+
     done(null, response);
 };

@@ -42,22 +42,7 @@ describe.only('Fake Transport', function() {
 
     describe('Delivery Reports', function() {
 
-        it.skip('should return all current SMS delivery report', function(done) {
-
-            //request account deliveries
-            transport.getDeliveryReports(function(error, deliveryReport) {
-
-                expect(error).to.be.null;
-                expect(deliveryReport).to.exist;
-                expect(deliveryReport.results).to.exist;
-                expect(deliveryReport.results.length).to.be.equal(3);
-
-                done();
-            });
-
-        });
-
-        it('should return current SMS sent deliveries based on messageId provided', function(done) {
+        it('should return current SMS sent delivery report(s) based on messageId provided', function(done) {
             var options = {
                 messageId: '80664c0c-e1ca-414d-806a-5caf146463df'
             };
@@ -73,23 +58,28 @@ describe.only('Fake Transport', function() {
                 expect(deliveryReport.results[0].messageId)
                     .to.equal(options.messageId);
 
-                done();
+                done(error, deliveryReport);
             });
 
         });
 
-        it.skip('should return current SMS sent deliveries based on bulkId provided', function(done) {
-
-            transport.getDeliveryReports({
+        it('should return current SMS sent delivery report(s) based on bulkId provided', function(done) {
+            var options = {
                 bulkId: '80664c0c-e1ca-414d-806a-5caf146463df'
-            }, function(error, deliveryReport) {
+            };
+
+            transport.getDeliveryReports(options, function(error, deliveryReport) {
 
                 expect(error).to.be.null;
                 expect(deliveryReport).to.exist;
                 expect(deliveryReport.results).to.exist;
-                expect(deliveryReport.results.length).to.be.above(0);
+                expect(deliveryReport.results.length).to.be.equal(50);
 
-                done();
+                //assert bulkId
+                expect(deliveryReport.results[0].bulkId)
+                    .to.equal(options.bulkId);
+
+                done(error, deliveryReport);
             });
 
         });
