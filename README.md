@@ -6,6 +6,8 @@ Send SMS(s), query their delivery reports and sending history in [nodejs](https:
 
 *Note:! It strongly recommend using the [E.164 number formatting](https://en.wikipedia.org/wiki/E.164) when sending SMS(s)*
 
+*Experimental:! You may now be able to use `bipsms` in test and development environment simply by passing `fake option` i.e `new require('bipsms')({fake:true})` and it will simulate API calls*
+
 ## Installation
 ``` bash
 $ npm install bipsms --save
