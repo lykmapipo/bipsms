@@ -123,19 +123,19 @@ var transport = new Transport({ username: '<username>', password: '<password>' }
 
 //prepare featured sms(s) to send
 var sms = {
-    "bulkId": "BULK-ID-123-xyz",
-    "messages": [{
-        "from": "InfoSMS",
-        "destinations": [{
-            "to": "41793026727",
-            "messageId": "MESSAGE-ID-123-xyz"
+    bulkId: 'BULK-ID-123-xyz',
+    messages: [{
+        from: 'InfoSMS',
+        destinations: [{
+            to: '41793026727',
+            messageId: 'MESSAGE-ID-123-xyz'
         }, {
-            "to": "41793026731"
+            to: '41793026731'
         }],
-        "text": "Mama always said life was like a box of chocolates. You never know what you're gonna get.",
-        "notifyUrl": "http://www.example.com/sms/advanced",
-        "notifyContentType": "application/json",
-        "callbackData": "There's no place like home."
+        text: 'Mama always said life was like a box of chocolates.',
+        notifyUrl: 'http://www.example.com/sms/advanced',
+        notifyContentType: 'application/json',
+        callbackData: 'There's no place like home.'
     }]
 };
 
