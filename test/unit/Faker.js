@@ -189,8 +189,55 @@ describe.only('Fake Transport', function() {
         });
     });
 
-    it('should be able to send single SMS', function(done) {
-        done();
+    describe('Send Single Textual SMS', function() {
+
+        it('should send a single sms to a single destination', function(done) {
+
+            var sms = {
+                from: 'InfoSMS',
+                to: '41793026727',
+                text: 'Test SMS.'
+            };
+
+            //send a single sms to a single destination
+            transport.sendSingleSMS(sms, function(error, response) {
+
+                expect(error).to.be.null;
+                expect(response).to.exist;
+                expect(response.messages).to.exist;
+                expect(response.messages.length).to.be.equal(1);
+
+                done(error, response);
+            });
+
+        });
+
+        it('should send a single sms to multiple destination', function(done) {
+
+            var sms = {
+                from: 'InfoSMS',
+                to: [
+                    '41793026727',
+                    '41793026834'
+                ],
+                text: 'Test SMS.'
+            };
+
+            //send single sms to multiple destination
+            transport.sendSingleSMS(sms, function(error, response) {
+
+
+                expect(error).to.be.null;
+                expect(response).to.exist;
+                expect(response.messages).to.exist;
+                expect(response.messages.length).to.be.equal(2);
+
+                expect(response.bulkId).to.exist;
+
+                done(error, response);
+            });
+
+        });
     });
 
     it('should be able to query send SMS Log', function(done) {

@@ -71,4 +71,9 @@ module.exports = exports = function FakeTransport() {
     this.sendMultiSMS = function(sms, done) {
         sendSMS(sms.messages, done);
     };
+
+    //simulate send single SMS
+    this.sendSingleSMS = function(sms, done) {
+        sendSMS(sms, done);
+    };
 };
