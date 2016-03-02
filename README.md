@@ -6,8 +6,6 @@ Send SMS(s), query their delivery reports and sending history in [nodejs](https:
 
 *Note:! It strongly recommend using the [E.164 number formatting](https://en.wikipedia.org/wiki/E.164) when sending SMS(s)*
 
-*Experimental:! You may now be able to use `bipsms` in test and development environment simply by passing `fake option` i.e `new require('bipsms')({fake:true})` and it will simulate API calls*
-
 ## Installation
 ``` bash
 $ npm install bipsms --save
@@ -26,6 +24,9 @@ To send single SMS to single destination, instantiate `bipsms` with your account
 ```js
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
+
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
 
 //prepare sms
 var sms = {
@@ -54,6 +55,9 @@ To send single SMS to multiple destination, instantiate `bipsms` with your accou
 ```js
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
+
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
 
 //prepare SMS
 var sms = {
@@ -85,6 +89,9 @@ To send multiple SMS, instantiate `bipsms` with your account details then invoke
 ```js
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
+
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
 
 //prepare sms(s) to send
 var sms = {
@@ -122,6 +129,9 @@ Example
 ```js
 var Transport = require('bipsms');
 var transport = new Transport({ username: '<username>', password: '<password>' });
+
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
 
 //prepare featured sms(s) to send
 var sms = {
@@ -165,6 +175,9 @@ To obtain SMS(s) delivery reports, instantiate `bipsms` with your account detail
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
+
 transport.getDeliveryReports(function(error, deliveryReport) {
 
             expect(error).to.be.null;
@@ -178,6 +191,9 @@ transport.getDeliveryReports(function(error, deliveryReport) {
 ```js
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
+
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
 
 transport.getDeliveryReports({
             bulkId: '<bulkId>'
@@ -204,6 +220,9 @@ To obtain SMS(s) sent history(log), instantiate `bipsms` with your account detai
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
+
 transport.getSentSMSLogs(function(error, logs) {
 
             expect(error).to.be.null;
@@ -217,6 +236,9 @@ transport.getSentSMSLogs(function(error, logs) {
 ```js
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
+
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
 
 transport.getSentSMSLogs({
             bulkId: '<bulkId>'
@@ -240,6 +262,9 @@ To obtain received SMS(s), instantiate `bipsms` with your account details then i
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
+
 transport.getReceivedSMS(function(error, receivedSMS) {
 
             expect(error).to.be.null;
@@ -253,6 +278,9 @@ transport.getReceivedSMS(function(error, receivedSMS) {
 ```js
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
+
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
 
 transport.getReceivedSMS({
             limit: '<limit>'
@@ -279,6 +307,9 @@ To obtain received SMS(s) logs, instantiate `bipsms` with your account details t
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
 
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
+
 transport.getReceivedSMSLogs(function(error, logs) {
 
             expect(error).to.be.null;
@@ -292,6 +323,9 @@ transport.getReceivedSMSLogs(function(error, logs) {
 ```js
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
+
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
 
 transport.getReceivedSMSLogs({
             limit: '<limit>'
@@ -313,6 +347,9 @@ To obtain your account balance, instantiate `bipsms` with your account details a
 ```js
 var Transport = require('bipsms');
 var transport = new Transport({username:'<username>',password:'<password>'});
+
+//or use Fake Transport for non production environment
+var transport = new Transport({fake:true});
 
 //then request your account balance
  transport.getBalance(function(error, balance) {
