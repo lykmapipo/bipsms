@@ -137,18 +137,18 @@ Transport.prototype._respond = function(error, response, data, done) {
 
     //process response error
     else if (response.statusCode !== 200) {
+        
         //process response data to error
-        var requestError = data.requestError || {};
-        var serviceException = requestError.serviceException || {};
+        var serviceException = _.get(data, 'requestError.serviceException', {});
         var errorName = serviceException.messageId || 'UNAUTHORIZED';
         var errorCode = response.statusCode || 401;
         var errorMessage = serviceException.text || 'Invalid credentials';
 
-        var _error = new Error(errorMessage);
-        _error.code = errorCode;
-        _error.name = errorName;
+        error = new Error(errorMessage);
+        error.code = errorCode;
+        error.name = errorName;
 
-        done(_error);
+        done(error);
     }
 
     //everything is okey return data as a reponse
