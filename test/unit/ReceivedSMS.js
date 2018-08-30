@@ -13,123 +13,126 @@ var receivedSMS = require(path.join(__dirname, 'fixtures', 'received_sms.json'))
 //TODO test for alternative flow
 //TODO assert request urls
 
-describe('Received SMS', function() {
+describe('Received SMS', function () {
 
-    it('should have /sms/1/inbox/reports as default received sms url', function(done) {
-        var transport = new Transport();
+  it('should have /sms/1/inbox/reports as default received sms url',
+    function (done) {
+      var transport = new Transport();
 
-        expect(transport.receivedUrl).to.equal('/sms/1/inbox/reports');
+      expect(transport.receivedUrl).to.equal('/sms/1/inbox/reports');
+
+      done();
+    });
+
+
+  it('should return unauthorized error when invalid credentials provided',
+    function (done) {
+      var transport = new Transport({
+        username: faker.internet.userName(),
+        password: faker.internet.password()
+      });
+
+      nock(transport.baseUrl)
+        .get(transport.receivedUrl)
+        .reply(function ( /*uri, requestBody*/ ) {
+          //assert headers
+          expect(this.req.headers.accept).to.equal('application/json');
+          expect(this.req.headers.host).to.equal('api.infobip.com');
+          expect(this.req.headers.authorization).to.not.be.null;
+
+          //fake invalid credentials
+          return [401, {
+            requestError: {
+              serviceException: {
+                messageId: 'UNAUTHORIZED',
+                text: 'Invalid login details'
+              }
+            }
+          }];
+        });
+
+      //request account received SMS(s)
+      transport.getReceivedSMS(function (error, receivedSMS) {
+
+        expect(receivedSMS).to.be.undefined;
+        expect(error).to.exist;
+        expect(error.code).to.equal(401);
+        expect(error.name).to.equal('UNAUTHORIZED');
+        expect(error.message).to.equal('Invalid login details');
 
         done();
-    });
-
-
-    it('should return unauthorized error when invalid credentials provided', function(done) {
-        var transport = new Transport({
-            username: faker.internet.userName(),
-            password: faker.internet.password()
-        });
-
-        nock(transport.baseUrl)
-            .get(transport.receivedUrl)
-            .reply(function( /*uri, requestBody*/ ) {
-                //assert headers
-                expect(this.req.headers.accept).to.equal('application/json');
-                expect(this.req.headers.host).to.equal('api.infobip.com');
-                expect(this.req.headers.authorization).to.not.be.null;
-
-                //fake invalid credentials
-                return [401, {
-                    requestError: {
-                        serviceException: {
-                            messageId: 'UNAUTHORIZED',
-                            text: 'Invalid login details'
-                        }
-                    }
-                }];
-            });
-
-        //request account received SMS(s)
-        transport.getReceivedSMS(function(error, receivedSMS) {
-
-            expect(receivedSMS).to.be.undefined;
-            expect(error).to.exist;
-            expect(error.code).to.equal(401);
-            expect(error.name).to.equal('UNAUTHORIZED');
-            expect(error.message).to.equal('Invalid login details');
-
-            done();
-        });
+      });
 
     });
 
-    it('should return all received SMS(s) so far', function(done) {
-        var transport = new Transport({
-            username: faker.internet.userName(),
-            password: faker.internet.password()
-        });
-
-        nock(transport.baseUrl)
-            .get(transport.receivedUrl)
-            .reply(function( /*uri, requestBody*/ ) {
-                //assert headers
-                expect(this.req.headers.accept).to.equal('application/json');
-                expect(this.req.headers.host).to.equal('api.infobip.com');
-                expect(this.req.headers.authorization).to.not.be.null;
-
-                return [200, receivedSMS];
-            });
-
-        //request account received SMS(s)
-        transport.getReceivedSMS(function(error, receivedSMS) {
-
-            expect(error).to.be.null;
-            expect(receivedSMS).to.exist;
-            expect(receivedSMS.results).to.exist;
-            expect(receivedSMS.results.length).to.be.equal(2);
-
-            done();
-        });
-
+  it('should return all received SMS(s) so far', function (done) {
+    var transport = new Transport({
+      username: faker.internet.userName(),
+      password: faker.internet.password()
     });
 
-    it('should return received SMS(s) based on options provided', function(done) {
-        var transport = new Transport({
-            username: faker.internet.userName(),
-            password: faker.internet.password()
-        });
+    nock(transport.baseUrl)
+      .get(transport.receivedUrl)
+      .reply(function ( /*uri, requestBody*/ ) {
+        //assert headers
+        expect(this.req.headers.accept).to.equal('application/json');
+        expect(this.req.headers.host).to.equal('api.infobip.com');
+        expect(this.req.headers.authorization).to.not.be.null;
 
-        nock(transport.baseUrl)
-            .get(transport.receivedUrl)
-            .query(true)
-            .reply(function( /*uri, requestBody*/ ) {
-                //assert headers
-                expect(this.req.headers.accept).to.equal('application/json');
-                expect(this.req.headers.host).to.equal('api.infobip.com');
-                expect(this.req.headers.authorization).to.not.be.null;
+        return [200, receivedSMS];
+      });
 
-                //assert query string
-                var query = url(this.req.path).qs;
-                expect(query).to.exist;
+    //request account received SMS(s)
+    transport.getReceivedSMS(function (error, receivedSMS) {
 
-                return [200, {
-                    results: _.take(receivedSMS.results, query.limit)
-                }];
-            });
+      expect(error).to.be.null;
+      expect(receivedSMS).to.exist;
+      expect(receivedSMS.results).to.exist;
+      expect(receivedSMS.results.length).to.be.equal(2);
 
-        //request account (inbox) received sms
-        transport.getReceivedSMS({
-            limit: 1
-        }, function(error, receivedSMS) {
-
-            expect(error).to.be.null;
-            expect(receivedSMS).to.exist;
-            expect(receivedSMS.results).to.exist;
-            expect(receivedSMS.results.length).to.be.equal(1);
-
-            done();
-        });
-
+      done();
     });
+
+  });
+
+  it('should return received SMS(s) based on options provided', function (
+    done) {
+    var transport = new Transport({
+      username: faker.internet.userName(),
+      password: faker.internet.password()
+    });
+
+    nock(transport.baseUrl)
+      .get(transport.receivedUrl)
+      .query(true)
+      .reply(function ( /*uri, requestBody*/ ) {
+        //assert headers
+        expect(this.req.headers.accept).to.equal('application/json');
+        expect(this.req.headers.host).to.equal('api.infobip.com');
+        expect(this.req.headers.authorization).to.not.be.null;
+
+        //assert query string
+        var query = url(this.req.path).qs;
+        expect(query).to.exist;
+
+        return [200, {
+          results: _.take(receivedSMS.results, query.limit)
+        }];
+      });
+
+    //request account (inbox) received sms
+    transport.getReceivedSMS({
+      limit: 1
+    }, function (error, receivedSMS) {
+
+      expect(error).to.be.null;
+      expect(receivedSMS).to.exist;
+      expect(receivedSMS.results).to.exist;
+      expect(receivedSMS.results.length).to.be.equal(1);
+
+      done();
+    });
+
+  });
 
 });

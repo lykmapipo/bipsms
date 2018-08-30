@@ -3,8 +3,9 @@
 //dependencies
 var path = require('path');
 var _ = require('lodash');
-var request = require('request');
 var async = require('async');
+var request = require('request');
+var env = require('@lykmapipo/env');
 var FakeTransport = require(path.join(__dirname, 'FakeTransport'));
 
 /**
@@ -14,36 +15,42 @@ var FakeTransport = require(path.join(__dirname, 'FakeTransport'));
  * @param {Object} options options to configure the transport instance
  * @public
  */
-function Transport(options) {
-    //prepare extended options
-    options = options || {};
+function Transport(optns) {
+  //obtain env defaults
+  var defaults = ({
+    username: env('SMS_INFOBIP_USERNAME'),
+    password: env('SMS_INFOBIP_PASSWORD')
+  });
 
-    //default options
-    this.options = {
-        baseUrl: 'https://api.infobip.com',
-        username: undefined,
-        password: undefined,
-        balanceUrl: '/account/1/balance',
-        logsUrl: '/sms/1/logs',
-        deliveryReportUrl: '/sms/1/reports',
-        sendSingleUrl: '/sms/1/text/single',
-        sendMultiUrl: '/sms/1/text/multi',
-        sendFeaturedUrl: '/sms/1/text/advanced',
-        receivedUrl: '/sms/1/inbox/reports',
-        receivedLogUrl: '/sms/1/inbox/logs',
-        request: {} //request options
-    };
+  //prepare extended options
+  var options = _.merge({}, defaults, optns);
 
-    //merge provided options with the default options
-    this.options = _.merge({}, this.options, options);
+  //default options
+  this.options = {
+    baseUrl: 'https://api.infobip.com',
+    username: undefined,
+    password: undefined,
+    balanceUrl: '/account/1/balance',
+    logsUrl: '/sms/1/logs',
+    deliveryReportUrl: '/sms/1/reports',
+    sendSingleUrl: '/sms/1/text/single',
+    sendMultiUrl: '/sms/1/text/multi',
+    sendFeaturedUrl: '/sms/1/text/advanced',
+    receivedUrl: '/sms/1/inbox/reports',
+    receivedLogUrl: '/sms/1/inbox/logs',
+    request: {} //request options
+  };
 
-    //initialize transport
-    this._initialize();
+  //merge provided options with the default options
+  this.options = _.merge({}, this.options, options);
 
-    //setup as fake transport if so
-    if (this.options.fake) {
-        FakeTransport.call(this);
-    }
+  //initialize transport
+  this._initialize();
+
+  //setup as fake transport if so
+  if (this.options.fake) {
+    FakeTransport.call(this);
+  }
 }
 
 
@@ -52,21 +59,21 @@ function Transport(options) {
  * @description initalize transport and add options magic getter and setter
  * @private
  */
-Transport.prototype._initialize = function() {
-    //its not fake
-    this.isFake = false;
+Transport.prototype._initialize = function () {
+  //its not fake
+  this.isFake = false;
 
-    //extend transport with magic setter and getter for options
-    _.forEach(_.keys(this.options), function(option) {
-        Object.defineProperty(this, option, {
-            get: function() {
-                return this.options[option];
-            }.bind(this),
-            set: function(value) {
-                this.options[option] = value;
-            }.bind(this)
-        });
-    }.bind(this));
+  //extend transport with magic setter and getter for options
+  _.forEach(_.keys(this.options), function (option) {
+    Object.defineProperty(this, option, {
+      get: function () {
+        return this.options[option];
+      }.bind(this),
+      set: function (value) {
+        this.options[option] = value;
+      }.bind(this)
+    });
+  }.bind(this));
 
 };
 
@@ -80,25 +87,25 @@ Transport.prototype._initialize = function() {
  * @return {String}                base64 encoded authentication token
  * @public
  */
-Transport.prototype.getAuthorizationToken = function(done) {
-    //if there is username and password
-    //build authorization token
-    if (this.username && this.password) {
-        //concatenate username and password as per 
-        //infobip API requirements
-        var usernameAndPassword = this.username + ':' + this.password;
-        var buffer = new Buffer(usernameAndPassword);
+Transport.prototype.getAuthorizationToken = function (done) {
+  //if there is username and password
+  //build authorization token
+  if (this.username && this.password) {
+    //concatenate username and password as per 
+    //infobip API requirements
+    var usernameAndPassword = this.username + ':' + this.password;
+    var buffer = new Buffer(usernameAndPassword);
 
-        //base64 encode username and password
-        var authorizationToken = 'Basic ' + buffer.toString('base64');
+    //base64 encode username and password
+    var authorizationToken = 'Basic ' + buffer.toString('base64');
 
-        done(null, authorizationToken);
-    }
-    //back-off
-    //no username and password provided
-    else {
-        done(new Error('No username or password provided'));
-    }
+    done(null, authorizationToken);
+  }
+  //back-off
+  //no username and password provided
+  else {
+    done(new Error('No username or password provided'));
+  }
 
 };
 
@@ -110,18 +117,18 @@ Transport.prototype.getAuthorizationToken = function(done) {
  * @return {Object}      JSON format of the data
  * @private
  */
-Transport.prototype._parse = function(data) {
-    data = data || {};
-    //try to parse data as a JSON
-    try {
-        data = JSON.parse(data);
-    }
-    //catch all errors and return a previous data
-    catch (error) {
-        data = data;
-    }
+Transport.prototype._parse = function (data) {
+  data = data || {};
+  //try to parse data as a JSON
+  try {
+    data = JSON.parse(data);
+  }
+  //catch all errors and return a previous data
+  catch (error) {
+    data = data;
+  }
 
-    return data;
+  return data;
 };
 
 
@@ -135,35 +142,35 @@ Transport.prototype._parse = function(data) {
  * @return {Object}            valid response data based on the api calls
  * @private
  */
-Transport.prototype._respond = function(error, response, data, done) {
-    //try to parse response data to valid JSON object
-    data = this._parse(data);
+Transport.prototype._respond = function (error, response, data, done) {
+  //try to parse response data to valid JSON object
+  data = this._parse(data);
 
-    //if error backoff
-    if (error) {
-        done(error);
-    }
+  //if error backoff
+  if (error) {
+    done(error);
+  }
 
-    //process response error
-    else if (response.statusCode !== 200) {
+  //process response error
+  else if (response.statusCode !== 200) {
 
-        //process response data to error
-        var serviceException = _.get(data, 'requestError.serviceException', {});
-        var errorName = serviceException.messageId || 'UNAUTHORIZED';
-        var errorCode = response.statusCode || 401;
-        var errorMessage = serviceException.text || 'Invalid credentials';
+    //process response data to error
+    var serviceException = _.get(data, 'requestError.serviceException', {});
+    var errorName = serviceException.messageId || 'UNAUTHORIZED';
+    var errorCode = response.statusCode || 401;
+    var errorMessage = serviceException.text || 'Invalid credentials';
 
-        error = new Error(errorMessage);
-        error.code = errorCode;
-        error.name = errorName;
+    error = new Error(errorMessage);
+    error.code = errorCode;
+    error.name = errorName;
 
-        done(error);
-    }
+    done(error);
+  }
 
-    //everything is okey return data as a reponse
-    else {
-        done(null, data);
-    }
+  //everything is okey return data as a reponse
+  else {
+    done(null, data);
+  }
 };
 
 
@@ -175,39 +182,39 @@ Transport.prototype._respond = function(error, response, data, done) {
  * @param  {Function} done a callback to invoke on send success or failure
  * @public
  */
-Transport.prototype.sendSingleSMS = function(sms, done) {
+Transport.prototype.sendSingleSMS = function (sms, done) {
 
-    //TODO validate message
-    //TODO normalize numbers to e164 format
+  //TODO validate message
+  //TODO normalize numbers to e164 format
 
-    async.waterfall(
-        [
+  async.waterfall(
+    [
 
-            function buildAthorizationToken(next) {
-                this.getAuthorizationToken(next);
-            }.bind(this),
+      function buildAthorizationToken(next) {
+        this.getAuthorizationToken(next);
+      }.bind(this),
 
-            function issueSendRequest(token, next) {
-                //prepare send single request details
-                var sendSingleRequestDetails = _.merge({
-                    method: 'POST',
-                    url: this.baseUrl + this.sendSingleUrl,
-                    json: sms,
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: token
-                    }
-                }, this.request);
+      function issueSendRequest(token, next) {
+        //prepare send single request details
+        var sendSingleRequestDetails = _.merge({
+          method: 'POST',
+          url: this.baseUrl + this.sendSingleUrl,
+          json: sms,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: token
+          }
+        }, this.request);
 
-                //issue send single request
-                request(sendSingleRequestDetails, next);
+        //issue send single request
+        request(sendSingleRequestDetails, next);
 
-            }.bind(this)
-        ],
-        function finalize(error, response, data) {
-            this._respond(error, response, data, done);
-        }.bind(this));
+      }.bind(this)
+    ],
+    function finalize(error, response, data) {
+      this._respond(error, response, data, done);
+    }.bind(this));
 };
 
 
@@ -219,38 +226,38 @@ Transport.prototype.sendSingleSMS = function(sms, done) {
  * @return {Object}        sent multiple SMS response
  * @public
  */
-Transport.prototype.sendMultiSMS = function(sms, done) {
-    //TODO validate message
-    //TODO normalize from sms to e164
+Transport.prototype.sendMultiSMS = function (sms, done) {
+  //TODO validate message
+  //TODO normalize from sms to e164
 
-    async.waterfall(
-        [
+  async.waterfall(
+    [
 
-            function buildAthorizationToken(next) {
-                this.getAuthorizationToken(next);
-            }.bind(this),
+      function buildAthorizationToken(next) {
+        this.getAuthorizationToken(next);
+      }.bind(this),
 
-            function issueSendRequest(token, next) {
-                //prepare send multi request details
-                var sendMultiRequestDetails = _.merge({
-                    method: 'POST',
-                    url: this.baseUrl + this.sendMultiUrl,
-                    json: sms,
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: token
-                    }
-                }, this.request);
+      function issueSendRequest(token, next) {
+        //prepare send multi request details
+        var sendMultiRequestDetails = _.merge({
+          method: 'POST',
+          url: this.baseUrl + this.sendMultiUrl,
+          json: sms,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: token
+          }
+        }, this.request);
 
-                //issue send single request
-                request(sendMultiRequestDetails, next);
+        //issue send single request
+        request(sendMultiRequestDetails, next);
 
-            }.bind(this)
-        ],
-        function finalize(error, response, data) {
-            this._respond(error, response, data, done);
-        }.bind(this));
+      }.bind(this)
+    ],
+    function finalize(error, response, data) {
+      this._respond(error, response, data, done);
+    }.bind(this));
 };
 
 
@@ -262,38 +269,38 @@ Transport.prototype.sendMultiSMS = function(sms, done) {
  * @return {Object}        sent textual SMS response
  * @public
  */
-Transport.prototype.sendFeaturedSMS = function(sms, done) {
-    //TODO validate message
-    //TODO normalize from sms to e164
+Transport.prototype.sendFeaturedSMS = function (sms, done) {
+  //TODO validate message
+  //TODO normalize from sms to e164
 
-    async.waterfall(
-        [
+  async.waterfall(
+    [
 
-            function buildAthorizationToken(next) {
-                this.getAuthorizationToken(next);
-            }.bind(this),
+      function buildAthorizationToken(next) {
+        this.getAuthorizationToken(next);
+      }.bind(this),
 
-            function issueSendRequest(token, next) {
-                //prepare send multi request details
-                var sendMultiRequestDetails = _.merge({
-                    method: 'POST',
-                    url: this.baseUrl + this.sendFeaturedUrl,
-                    json: sms,
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: token
-                    }
-                }, this.request);
+      function issueSendRequest(token, next) {
+        //prepare send multi request details
+        var sendMultiRequestDetails = _.merge({
+          method: 'POST',
+          url: this.baseUrl + this.sendFeaturedUrl,
+          json: sms,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: token
+          }
+        }, this.request);
 
-                //issue send single request
-                request(sendMultiRequestDetails, next);
+        //issue send single request
+        request(sendMultiRequestDetails, next);
 
-            }.bind(this)
-        ],
-        function finalize(error, response, data) {
-            this._respond(error, response, data, done);
-        }.bind(this));
+      }.bind(this)
+    ],
+    function finalize(error, response, data) {
+      this._respond(error, response, data, done);
+    }.bind(this));
 };
 
 
@@ -306,43 +313,43 @@ Transport.prototype.sendFeaturedSMS = function(sms, done) {
  * @return {Object}           SMS sent delivery reports
  * @public
  */
-Transport.prototype.getDeliveryReports = function(options, done) {
-    //if no options provided
-    if (_.size(arguments) === 1) {
-        done = options;
-        options = {};
-    }
+Transport.prototype.getDeliveryReports = function (options, done) {
+  //if no options provided
+  if (_.size(arguments) === 1) {
+    done = options;
+    options = {};
+  }
 
-    //prepare delivery report request params
-    options = options || {};
+  //prepare delivery report request params
+  options = options || {};
 
-    async.waterfall(
-        [
+  async.waterfall(
+    [
 
-            function buildAthorizationToken(next) {
-                this.getAuthorizationToken(next);
-            }.bind(this),
+      function buildAthorizationToken(next) {
+        this.getAuthorizationToken(next);
+      }.bind(this),
 
-            function issueDeliveryRequest(token, next) {
-                //prepare delivery report request details
-                var deliveryReportRequestDetails = _.merge({
-                    method: 'GET',
-                    qs: options,
-                    url: this.baseUrl + this.deliveryReportUrl,
-                    headers: {
-                        Accept: 'application/json',
-                        Authorization: token
-                    }
-                }, this.request);
+      function issueDeliveryRequest(token, next) {
+        //prepare delivery report request details
+        var deliveryReportRequestDetails = _.merge({
+          method: 'GET',
+          qs: options,
+          url: this.baseUrl + this.deliveryReportUrl,
+          headers: {
+            Accept: 'application/json',
+            Authorization: token
+          }
+        }, this.request);
 
-                //issue delivery report request
-                request(deliveryReportRequestDetails, next);
+        //issue delivery report request
+        request(deliveryReportRequestDetails, next);
 
-            }.bind(this)
-        ],
-        function finalize(error, response, data) {
-            this._respond(error, response, data, done);
-        }.bind(this));
+      }.bind(this)
+    ],
+    function finalize(error, response, data) {
+      this._respond(error, response, data, done);
+    }.bind(this));
 };
 
 
@@ -355,43 +362,43 @@ Transport.prototype.getDeliveryReports = function(options, done) {
  * @return {Object}           sent SMS logs response
  * @public
  */
-Transport.prototype.getSentSMSLogs = function(options, done) {
-    //if no options provided
-    if (_.size(arguments) === 1) {
-        done = options;
-        options = {};
-    }
+Transport.prototype.getSentSMSLogs = function (options, done) {
+  //if no options provided
+  if (_.size(arguments) === 1) {
+    done = options;
+    options = {};
+  }
 
-    //prepare logs request params
-    options = options || {};
+  //prepare logs request params
+  options = options || {};
 
-    async.waterfall(
-        [
+  async.waterfall(
+    [
 
-            function buildAthorizationToken(next) {
-                this.getAuthorizationToken(next);
-            }.bind(this),
+      function buildAthorizationToken(next) {
+        this.getAuthorizationToken(next);
+      }.bind(this),
 
-            function issueLogsRequest(token, next) {
-                //prepare logs history request details
-                var logsRequestDetails = _.merge({
-                    method: 'GET',
-                    qs: options,
-                    url: this.baseUrl + this.logsUrl,
-                    headers: {
-                        Accept: 'application/json',
-                        Authorization: token
-                    }
-                }, this.request);
+      function issueLogsRequest(token, next) {
+        //prepare logs history request details
+        var logsRequestDetails = _.merge({
+          method: 'GET',
+          qs: options,
+          url: this.baseUrl + this.logsUrl,
+          headers: {
+            Accept: 'application/json',
+            Authorization: token
+          }
+        }, this.request);
 
-                //issue logs history request
-                request(logsRequestDetails, next);
+        //issue logs history request
+        request(logsRequestDetails, next);
 
-            }.bind(this)
-        ],
-        function finalize(error, response, data) {
-            this._respond(error, response, data, done);
-        }.bind(this));
+      }.bind(this)
+    ],
+    function finalize(error, response, data) {
+      this._respond(error, response, data, done);
+    }.bind(this));
 };
 
 
@@ -401,34 +408,34 @@ Transport.prototype.getSentSMSLogs = function(options, done) {
  * @param  {Function} done [description]
  * @return {[type]}        [description]
  */
-Transport.prototype.getBalance = function(done) {
+Transport.prototype.getBalance = function (done) {
 
-    async.waterfall(
-        [
+  async.waterfall(
+    [
 
-            function buildAthorizationToken(next) {
-                this.getAuthorizationToken(next);
-            }.bind(this),
+      function buildAthorizationToken(next) {
+        this.getAuthorizationToken(next);
+      }.bind(this),
 
-            function issueBalanceRequest(token, next) {
-                //prepare request details
-                var balanceRequestDetails = _.merge({
-                    method: 'GET',
-                    url: this.baseUrl + this.balanceUrl,
-                    headers: {
-                        Accept: 'application/json',
-                        Authorization: token
-                    }
-                }, this.request);
+      function issueBalanceRequest(token, next) {
+        //prepare request details
+        var balanceRequestDetails = _.merge({
+          method: 'GET',
+          url: this.baseUrl + this.balanceUrl,
+          headers: {
+            Accept: 'application/json',
+            Authorization: token
+          }
+        }, this.request);
 
-                //issue balance request
-                request(balanceRequestDetails, next);
+        //issue balance request
+        request(balanceRequestDetails, next);
 
-            }.bind(this)
-        ],
-        function finalize(error, response, data) {
-            this._respond(error, response, data, done);
-        }.bind(this));
+      }.bind(this)
+    ],
+    function finalize(error, response, data) {
+      this._respond(error, response, data, done);
+    }.bind(this));
 };
 
 
@@ -441,43 +448,43 @@ Transport.prototype.getBalance = function(done) {
  * @return {Object}           received message response
  * @public
  */
-Transport.prototype.getReceivedSMS = function(options, done) {
-    //if no options provided
-    if (_.size(arguments) === 1) {
-        done = options;
-        options = {};
-    }
+Transport.prototype.getReceivedSMS = function (options, done) {
+  //if no options provided
+  if (_.size(arguments) === 1) {
+    done = options;
+    options = {};
+  }
 
-    //prepare received sms(s) request params
-    options = options || {};
+  //prepare received sms(s) request params
+  options = options || {};
 
-    async.waterfall(
-        [
+  async.waterfall(
+    [
 
-            function buildAthorizationToken(next) {
-                this.getAuthorizationToken(next);
-            }.bind(this),
+      function buildAthorizationToken(next) {
+        this.getAuthorizationToken(next);
+      }.bind(this),
 
-            function issueReceivedSMSRequest(token, next) {
-                //prepare received sms(s) request details
-                var receivedSMSRequestDetails = _.merge({
-                    method: 'GET',
-                    qs: options,
-                    url: this.baseUrl + this.receivedUrl,
-                    headers: {
-                        Accept: 'application/json',
-                        Authorization: token
-                    }
-                }, this.request);
+      function issueReceivedSMSRequest(token, next) {
+        //prepare received sms(s) request details
+        var receivedSMSRequestDetails = _.merge({
+          method: 'GET',
+          qs: options,
+          url: this.baseUrl + this.receivedUrl,
+          headers: {
+            Accept: 'application/json',
+            Authorization: token
+          }
+        }, this.request);
 
-                //issue received sms(s) request
-                request(receivedSMSRequestDetails, next);
+        //issue received sms(s) request
+        request(receivedSMSRequestDetails, next);
 
-            }.bind(this)
-        ],
-        function finalize(error, response, data) {
-            this._respond(error, response, data, done);
-        }.bind(this));
+      }.bind(this)
+    ],
+    function finalize(error, response, data) {
+      this._respond(error, response, data, done);
+    }.bind(this));
 };
 
 
@@ -489,43 +496,43 @@ Transport.prototype.getReceivedSMS = function(options, done) {
  * @return {Object}           received SMS log response
  * @public
  */
-Transport.prototype.getReceivedSMSLogs = function(options, done) {
-    //if no options provided
-    if (_.size(arguments) === 1) {
-        done = options;
-        options = {};
-    }
+Transport.prototype.getReceivedSMSLogs = function (options, done) {
+  //if no options provided
+  if (_.size(arguments) === 1) {
+    done = options;
+    options = {};
+  }
 
-    //prepare received log sms(s) request params
-    options = options || {};
+  //prepare received log sms(s) request params
+  options = options || {};
 
-    async.waterfall(
-        [
+  async.waterfall(
+    [
 
-            function buildAthorizationToken(next) {
-                this.getAuthorizationToken(next);
-            }.bind(this),
+      function buildAthorizationToken(next) {
+        this.getAuthorizationToken(next);
+      }.bind(this),
 
-            function issueReceivedSMSLogRequest(token, next) {
-                //prepare received sms(s) log request details
-                var receivedSMSLogRequestDetails = _.merge({
-                    method: 'GET',
-                    qs: options,
-                    url: this.baseUrl + this.receivedLogUrl,
-                    headers: {
-                        Accept: 'application/json',
-                        Authorization: token
-                    }
-                }, this.request);
+      function issueReceivedSMSLogRequest(token, next) {
+        //prepare received sms(s) log request details
+        var receivedSMSLogRequestDetails = _.merge({
+          method: 'GET',
+          qs: options,
+          url: this.baseUrl + this.receivedLogUrl,
+          headers: {
+            Accept: 'application/json',
+            Authorization: token
+          }
+        }, this.request);
 
-                //issue received sms(s) request
-                request(receivedSMSLogRequestDetails, next);
+        //issue received sms(s) request
+        request(receivedSMSLogRequestDetails, next);
 
-            }.bind(this)
-        ],
-        function finalize(error, response, data) {
-            this._respond(error, response, data, done);
-        }.bind(this));
+      }.bind(this)
+    ],
+    function finalize(error, response, data) {
+      this._respond(error, response, data, done);
+    }.bind(this));
 };
 
 //export transport constructor
