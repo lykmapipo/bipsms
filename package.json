@@ -1,6 +1,6 @@
 {
   "name": "bipsms",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "Send SMS(s), query their delivery reports and sending history in nodejs using infobip JSON API",
   "main": "src/index.js",
   "scripts": {
@@ -30,25 +30,25 @@
     "url": "https://github.com/lykmapipo/bipsms/issues"
   },
   "dependencies": {
-    "@lykmapipo/env": "^0.2.1",
-    "async": "^2.6.1",
-    "lodash": "^4.17.10",
-    "moment": "^2.22.2",
-    "random-number": "0.0.9",
-    "request": "^2.88.0",
-    "uuid": "^3.3.2"
+    "@lykmapipo/env": ">=0.3.3",
+    "async": ">=2.6.1",
+    "lodash": ">=4.17.11",
+    "moment": ">=2.23.0",
+    "random-number": ">=0.0.9",
+    "request": ">=2.88.0",
+    "uuid": ">=3.3.2"
   },
   "devDependencies": {
-    "chai": "~4.1.2",
+    "chai": "~4.2.0",
     "faker": "^4.1.0",
     "grunt": "~1.0.3",
-    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-jshint": "^2.0.0",
     "grunt-contrib-watch": "~1.1.0",
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "load-grunt-tasks": "^4.0.0",
     "mocha": "^5.2.0",
-    "nock": "^9.6.1",
+    "nock": "^10.0.4",
     "querystring": "^0.2.0",
     "url-querystring": "^2.1.1"
   }

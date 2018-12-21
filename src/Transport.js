@@ -94,7 +94,7 @@ Transport.prototype.getAuthorizationToken = function (done) {
     //concatenate username and password as per 
     //infobip API requirements
     var usernameAndPassword = this.username + ':' + this.password;
-    var buffer = new Buffer(usernameAndPassword);
+    var buffer = Buffer.from(usernameAndPassword);
 
     //base64 encode username and password
     var authorizationToken = 'Basic ' + buffer.toString('base64');
