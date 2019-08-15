@@ -30,9 +30,9 @@
     "url": "https://github.com/lykmapipo/bipsms/issues"
   },
   "dependencies": {
-    "@lykmapipo/env": ">=0.8.1",
-    "async": ">=3.0.1",
-    "lodash": ">=4.17.11",
+    "@lykmapipo/env": ">=0.12.1",
+    "async": ">=3.1.0",
+    "lodash": ">=4.17.15",
     "moment": ">=2.24.0",
     "random-number": ">=0.0.9",
     "request": ">=2.88.0",
@@ -47,8 +47,9 @@
     "grunt-mocha-test": "^0.13.3",
     "handlebars": "^4.1.2",
     "jshint-stylish": "^2.2.1",
-    "load-grunt-tasks": "^5.0.0",
-    "mocha": "^6.1.4",
+    "load-grunt-tasks": "^5.1.0",
+    "lodash.template": "^4.5.0",
+    "mocha": "^6.2.0",
     "nock": "^10.0.6",
     "querystring": "^0.2.0",
     "url-querystring": "^2.1.1"
