@@ -1,3 +1,9 @@
+#### 0.4.4 (2019-08-15)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([811b8ddd](https://github.com/lykmapipo/bipsms/commit/811b8ddd155a70a9f41cc08f927f0554bf4ec80e))
+
 #### 0.4.3 (2019-06-09)
 
 ##### Chores
