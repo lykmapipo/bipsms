@@ -5,7 +5,7 @@ var path = require('path');
 var _ = require('lodash');
 var async = require('async');
 var request = require('request');
-var env = require('@lykmapipo/env');
+var { getString } = require('@lykmapipo/env');
 var FakeTransport = require(path.join(__dirname, 'FakeTransport'));
 
 /**
@@ -18,8 +18,8 @@ var FakeTransport = require(path.join(__dirname, 'FakeTransport'));
 function Transport(optns) {
   //obtain env defaults
   var defaults = ({
-    username: env('SMS_INFOBIP_USERNAME'),
-    password: env('SMS_INFOBIP_PASSWORD')
+    username: getString('SMS_INFOBIP_USERNAME'),
+    password: getString('SMS_INFOBIP_PASSWORD')
   });
 
   //prepare extended options
