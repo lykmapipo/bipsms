@@ -1,3 +1,9 @@
+#### 0.5.0 (2019-08-15)
+
+##### Refactors
+
+*  use latest env api ([68e34bd2](https://github.com/lykmapipo/bipsms/commit/68e34bd2470aeae1433c06cd197c3f7158ab1ef4))
+
 #### 0.4.4 (2019-08-15)
 
 ##### Chores
