@@ -1,3 +1,9 @@
+#### 0.5.1 (2019-09-16)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([529275d4](https://github.com/lykmapipo/bipsms/commit/529275d45bb15db4dcd32a6936b38481d1699353))
+
 #### 0.5.0 (2019-08-15)
 
 ##### Refactors
