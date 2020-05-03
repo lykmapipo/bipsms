@@ -1,3 +1,9 @@
+#### 0.6.0 (2020-05-03)
+
+##### Refactors
+
+*  use lates uuid api ([ce21f82b](https://github.com/lykmapipo/bipsms/commit/ce21f82b322fd2fff7b8e87624ce1117bcb943dc))
+
 #### 0.5.14 (2020-05-01)
 
 ##### Chores
