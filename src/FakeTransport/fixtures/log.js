@@ -2,7 +2,7 @@
 
 //dependencies
 var _ = require('lodash');
-var uuid = require('uuid');
+var { v4: uuidv4 } = require('uuid');
 var moment = require('moment');
 var randomNumber = require('random-number');
 var sentDays = randomNumber({
@@ -18,8 +18,8 @@ var doneDays = randomNumber({
 module.exports = exports = function (options, done) {
   //sms delivery report template
   var template = {
-    bulkId: uuid.v4(),
-    messageId: uuid.v4(),
+    bulkId: uuidv4(),
+    messageId: uuidv4(),
     to: String(randomNumber({
       min: 11111111111,
       max: 99999999999,

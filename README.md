@@ -6,6 +6,10 @@ Send SMS(s), query their delivery reports and sending history in [nodejs](https:
 
 *Note:! It strongly recommend using the [E.164 number formatting](https://en.wikipedia.org/wiki/E.164) when sending SMS(s)*
 
+## Requirements
+
+- [NodeJS v13.14+](https://nodejs.org)
+
 ## Installation
 ``` bash
 $ npm install bipsms --save

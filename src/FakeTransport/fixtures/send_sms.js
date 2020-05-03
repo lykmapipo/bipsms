@@ -2,7 +2,7 @@
 
 //dependencies
 var _ = require('lodash');
-var uuid = require('uuid');
+var { v4: uuidv4 } = require('uuid');
 var randomNumber = require('random-number');
 
 
@@ -25,7 +25,7 @@ module.exports = exports = function (sms, done) {
       description: 'Message accepted'
     },
     smsCount: 1,
-    messageId: uuid.v4()
+    messageId: uuidv4()
   };
 
   //process messages and build response
@@ -56,7 +56,7 @@ module.exports = exports = function (sms, done) {
       });
 
       response = {
-        bulkId: uuid.v4(),
+        bulkId: uuidv4(),
         messages: messages
       };
     }
@@ -89,7 +89,7 @@ module.exports = exports = function (sms, done) {
       });
 
       response = {
-        bulkId: uuid.v4(),
+        bulkId: uuidv4(),
         messages: _messages
       };
     }
@@ -109,7 +109,7 @@ module.exports = exports = function (sms, done) {
     });
 
     response = {
-      bulkId: sms.bulkId || uuid.v4(),
+      bulkId: sms.bulkId || uuidv4(),
       messages: $messages
     };
   }
