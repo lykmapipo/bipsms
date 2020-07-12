@@ -30,9 +30,9 @@
     "url": "https://github.com/lykmapipo/bipsms/issues"
   },
   "dependencies": {
-    "@lykmapipo/env": ">=0.17.12",
+    "@lykmapipo/env": ">=0.17.13",
     "async": ">=3.2.0",
-    "lodash": ">=4.17.17",
+    "lodash": ">=4.17.19",
     "moment": ">=2.27.0",
     "random-number": ">=0.0.9",
     "request": ">=2.88.2",
