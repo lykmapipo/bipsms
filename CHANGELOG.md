@@ -1,3 +1,9 @@
+#### 0.6.13 (2020-08-19)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([3b3c3a75](https://github.com/lykmapipo/bipsms/commit/3b3c3a75be35957cea1627554070f8c6d17c9501))
+
 #### 0.6.12 (2020-08-04)
 
 ##### Chores
