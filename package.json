@@ -1,6 +1,6 @@
 {
   "name": "bipsms",
-  "version": "0.6.15",
+  "version": "0.6.16",
   "description": "Send SMS(s), query their delivery reports and sending history in nodejs using infobip JSON API",
   "main": "src/index.js",
   "scripts": {
