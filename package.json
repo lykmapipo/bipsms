@@ -30,13 +30,13 @@
     "url": "https://github.com/lykmapipo/bipsms/issues"
   },
   "dependencies": {
-    "@lykmapipo/env": ">=0.17.23",
+    "@lykmapipo/env": ">=0.17.24",
     "async": ">=3.2.0",
     "lodash": ">=4.17.20",
     "moment": ">=2.29.1",
     "random-number": ">=0.0.9",
     "request": ">=2.88.2",
-    "uuid": ">=8.3.1"
+    "uuid": ">=8.3.2"
   },
   "devDependencies": {
     "chai": "~4.2.0",
