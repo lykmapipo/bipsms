@@ -1,3 +1,9 @@
+#### 0.6.23 (2021-06-05)
+
+##### Bug Fixes
+
+* **package:**  corrent main entry ([88931c22](https://github.com/lykmapipo/bipsms/commit/88931c22ebd41718b7dc1258152d597b86a1773e))
+
 #### 0.6.22 (2021-02-10)
 
 ##### Chores
